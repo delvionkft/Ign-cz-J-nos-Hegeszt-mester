@@ -68,7 +68,12 @@ export function SegmentProvider({ children }: { children: ReactNode }) {
     } else {
       url.searchParams.delete(QUERY_KEY)
     }
-    window.history.replaceState({}, '', url)
+    try {
+      window.history.replaceState({}, '', url)
+    } catch {
+      // Beágyazott / homokozós környezetben a History API tiltott lehet.
+      // A kiválasztás ilyenkor is működik, csak az URL nem frissül.
+    }
     setAnalyticsContext(segment, problem)
   }, [problem, segment])
 
