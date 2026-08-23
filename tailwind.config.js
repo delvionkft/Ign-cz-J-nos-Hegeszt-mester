@@ -21,6 +21,9 @@ export default {
         // Az ívfény hidegkék csúcsfénye a hero videóból – kizárólag apró
         // fénypontokhoz és a videós szekció hangulati kötéséhez.
         arc: '#7FD4FF',
+        // A hegesztési szikrák meleg tónusa. KIZÁRÓLAG néhány pixeles
+        // szikrarészecskékhez – szövegre és felületre soha.
+        ember: '#FFB25A',
       },
       fontFamily: {
         display: ['Oswald', 'Barlow Condensed', 'Arial Narrow', 'sans-serif'],
@@ -111,6 +114,15 @@ export default {
           from: { opacity: '0', transform: 'translateY(26px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        /* Szikra: kipattan, ível egyet, majd kihuny. */
+        'spark-fly': {
+          '0%': { opacity: '0', transform: 'translate3d(0, 0, 0) scale(0.5)' },
+          '12%': { opacity: '1', transform: 'translate3d(0, 0, 0) scale(1)' },
+          '100%': {
+            opacity: '0',
+            transform: 'translate3d(var(--spark-dx), var(--spark-dy), 0) scale(0.15)',
+          },
+        },
       },
       animation: {
         'fade-up': 'fade-up 220ms ease-out both',
@@ -120,6 +132,7 @@ export default {
         'arc-flicker': 'arc-flicker 4s ease-in-out infinite',
         'scroll-cue': 'scroll-cue 1.9s ease-in-out infinite',
         'rise-in': 'rise-in 620ms cubic-bezier(0.16, 0.84, 0.28, 1) both',
+        'spark-fly': 'spark-fly var(--spark-dur, 620ms) cubic-bezier(0.2, 0.6, 0.4, 1) forwards',
       },
     },
   },

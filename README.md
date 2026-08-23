@@ -377,6 +377,34 @@ maradhat láthatatlan:** ha nincs IntersectionObserver vagy a látogató csökke
 kért, a tartalom azonnal látszik; gyors görgetésnél az összevont értesítés is megjelenítést
 vált ki; végső hálóként 1,2 másodperc után minden elem megjelenik.
 
+### Fejléc: szikrázó menüpontok
+
+A navigációs linkek kurzor alá érve apró szikrákat pattintanak ki az alsó élükből,
+miközben a piros aláhúzás balról behúz – ugyanaz a mozdulat, mint amikor a
+hegesztőpálca hozzáér az anyaghoz (`src/components/ui/SparkLink.tsx`).
+
+- Tiszta CSS: minden szikra egy 2–4 px-es elem `transform` + `opacity` animációval,
+  tehát a böngésző a kompozitorban futtatja.
+- A röppályák kézzel hangoltak, nem véletlenszerűek – minden link ugyanazt a
+  felismerhető mozdulatot ismétli.
+- A szikrák `aria-hidden` és `pointer-events: none`.
+- Billentyűzetes fókusznál is lefut (`group-focus-visible`).
+- `prefers-reduced-motion` esetén nincs szikra, csak a színváltás és az aláhúzás –
+  az aktív állapot így is egyértelmű.
+- A szikrák az egyetlen hely, ahol az `ember` (`#FFB25A`) meleg tónus megjelenik.
+  Szövegre és felületre soha.
+
+### Lábléc
+
+Az oldal lezárása, nem zsákutca: a „Miben segítek" gyorslinkek ugyanazt a
+szegmensállapotot állítják, mint a problémaválasztó, és felgörgetnek hozzá.
+Tartalma: márkablokk anyag- és eljáráskörrel, elérhetőségi csatornák, navigáció,
+nyitvatartás, jogi linkek, süti beállítások, cégadatok és „Vissza a tetejére".
+
+Lezárásként nagy méretű, alig látható névvízjel. A betűmérete a felirat hosszához
+igazodik (`~190vw / karakterszám`), így hosszabb cégnév sem lóg ki. Amíg a cégnév
+nincs kitöltve, a szakma neve áll ott.
+
 ### Struktúra
 
 - **Szekció-sorszámozás (01–10)** a jobb margón: a landing egy megtervezett sorrend,

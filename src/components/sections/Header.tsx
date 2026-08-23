@@ -7,6 +7,7 @@ import { useActiveSection } from '@/hooks/useInView'
 import { useScrolledPast } from '@/hooks/useMedia'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { SparkLink } from '@/components/ui/SparkLink'
 
 export const NAV_ITEMS = [
   { id: 'javitasok', label: 'Javítások' },
@@ -86,23 +87,17 @@ export function Header() {
           <ul className="flex items-center gap-1">
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
-                <a
+                <SparkLink
                   href={`#${item.id}`}
+                  active={active === item.id}
+                  aria-current={active === item.id ? 'true' : undefined}
                   onClick={(event) => {
                     event.preventDefault()
                     go(item.id)
                   }}
-                  aria-current={active === item.id ? 'true' : undefined}
-                  className={cn(
-                    'relative block px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.12em] transition-colors duration-150',
-                    active === item.id ? 'text-paper' : 'text-alu hover:text-paper',
-                  )}
                 >
                   {item.label}
-                  {active === item.id && (
-                    <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-0.5 bg-brand" />
-                  )}
-                </a>
+                </SparkLink>
               </li>
             ))}
           </ul>
