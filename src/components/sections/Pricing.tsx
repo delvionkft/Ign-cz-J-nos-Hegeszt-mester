@@ -29,7 +29,7 @@ export function Pricing() {
   const rows = priceRanges.filter((row) => row.segment === segment)
 
   return (
-    <Section id="arak" tone="pit" labelledBy="arak-cim" index="05">
+    <Section id="arak" tone="pit" labelledBy="arak-cim" index="05" glow="brand" glowAt={{ x: '70%', y: '40%' }}>
       <SectionHeading id="arak-cim" kicker="Árak" title={copy.title} subtitle={copy.subtitle} />
 
       <div ref={ref}>
@@ -66,7 +66,7 @@ function PriceTable({ rows }: { rows: typeof priceRanges }) {
   return (
     <Reveal>
       {/* A táblázat saját vízszintes görgetést kap, hogy az oldal ne csorduljon túl. */}
-      <div className="overflow-x-auto border border-white/12 shadow-edge">
+      <div className="overflow-x-auto border border-white/12 bg-ink/40 shadow-lift backdrop-blur-sm">
         <table className="tabular w-full min-w-[46rem] border-collapse text-left">
           <caption className="sr-only">
             Tipikus munkák becsült ársávjai és átfutási ideje
@@ -88,7 +88,7 @@ function PriceTable({ rows }: { rows: typeof priceRanges }) {
               {/* A javítás oszlopa kap vizuális elsőbbséget – ez a döntési pont. */}
               <th
                 scope="col"
-                className="border-x border-brand/30 bg-brand/[0.07] px-5 py-4 font-display text-label font-semibold uppercase text-brand-light"
+                className="border-x border-brand/40 bg-brand/[0.14] px-5 py-4 font-display text-label font-semibold uppercase text-brand-light"
               >
                 Javítás / gyártás ára
               </th>
@@ -120,7 +120,7 @@ function PriceTable({ rows }: { rows: typeof priceRanges }) {
                       <Pending />
                     )}
                   </td>
-                  <td className="border-x border-brand/25 bg-brand/[0.05] px-5 py-4">
+                  <td className="border-x border-brand/30 bg-brand/[0.08] px-5 py-4">
                     {price ? (
                       <span className="font-display text-lg font-bold text-brand-light">{price}</span>
                     ) : (
@@ -157,7 +157,7 @@ function CooperationGrid() {
     <ul className="grid gap-4 sm:grid-cols-2">
       {cooperationModels.map((model, index) => (
         <Reveal as="li" key={model.id} delay={Math.min(index * 45, 135)} className="h-full">
-          <div className="card h-full p-6">
+          <div className="hover-lift relative h-full rounded-sm border border-white/10 bg-panel/60 p-6 shadow-edge hover:border-brand/50 hover:shadow-glow">
             <span
               aria-hidden="true"
               className="tabular absolute right-5 top-5 font-display text-3xl font-bold leading-none text-white/[0.06]"

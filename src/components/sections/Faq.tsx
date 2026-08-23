@@ -29,7 +29,7 @@ export function Faq() {
   }, [items])
 
   return (
-    <Section id="gyik" labelledBy="gyik-cim" index="08">
+    <Section id="gyik" labelledBy="gyik-cim" index="08" glow="arc" glowAt={{ x: '20%', y: '25%' }}>
       <div className="grid gap-10 lg:grid-cols-[minmax(16rem,20rem)_1fr] lg:gap-16">
         <Reveal className="lg:sticky lg:top-32 lg:self-start">
           <p className="mb-4 flex items-center gap-3 font-display text-label font-semibold uppercase text-brand-light">

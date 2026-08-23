@@ -21,6 +21,15 @@ A nyilvántartás szerinti pontos név, valamint egy rövid változat a fejlécb
 Ide tartozik a `business.legalForm` (jogi forma) és `business.taxId` (adószám) is az
 impresszumhoz.
 
+## 1/b. Hero háttérvideó (opcionális csere)
+`src/content/hero.ts` → `hero.video`, fájlok a `public/video/` mappában
+
+Jelenleg egy általános hegesztési felvétel fut a hero hátterében. Ha saját
+műhelyfelvétel készül, cseréld le – a saját munka mindig hitelesebb.
+Kódolási parancsok: README → „A hero háttérvideó".
+
+**Ez nem üzleti adat, ezért nem blokkolja az élesítést.**
+
 ## 2. Logó
 `src/content/site.config.ts` → `business.logoSrc`
 

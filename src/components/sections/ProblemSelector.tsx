@@ -41,7 +41,7 @@ export function ProblemSelector() {
   }
 
   return (
-    <Section id="javitasok" labelledBy="javitasok-cim" index="01">
+    <Section id="javitasok" labelledBy="javitasok-cim" index="01" glow="brand" glowAt={{ x: '82%', y: '18%' }}>
       <SectionHeading
         id="javitasok-cim"
         kicker="Problémaválasztó"
@@ -69,10 +69,10 @@ export function ProblemSelector() {
                 onClick={() => selectProblem(card.id, 'problem_selector')}
                 onKeyDown={(event) => onKeyDown(event, index)}
                 className={cn(
-                  'group relative flex h-full w-full flex-col overflow-hidden rounded-sm border p-5 text-left shadow-edge transition-colors duration-150 sm:p-6',
+                  'hover-lift group relative flex h-full w-full flex-col overflow-hidden rounded-sm border p-5 text-left sm:p-6',
                   selected
-                    ? 'border-brand bg-brand/[0.09]'
-                    : 'border-white/10 bg-panel/55 hover:border-alu/35 hover:bg-panel',
+                    ? 'border-brand bg-brand/[0.12] shadow-glow'
+                    : 'border-white/10 bg-panel/55 shadow-edge hover:border-brand/50 hover:bg-panel hover:shadow-glow',
                 )}
               >
                 {/* Aktív jelzés színen kívül is: bal oldali sín + jelölés. */}
@@ -87,11 +87,11 @@ export function ProblemSelector() {
                 <span className="mb-5 flex items-start justify-between gap-3">
                   <Icon
                     name={card.icon}
-                    size={40}
+                    size={44}
                     strokeWidth={1.25}
                     className={cn(
-                      'transition-colors duration-150',
-                      selected ? 'text-brand-light' : 'text-steel group-hover:text-alu',
+                      'transition-[color,transform] duration-200 group-hover:scale-105',
+                      selected ? 'text-brand-light' : 'text-steel group-hover:text-brand-light',
                     )}
                   />
                   <span

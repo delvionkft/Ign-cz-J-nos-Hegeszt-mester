@@ -9,7 +9,7 @@ import { Reveal } from '@/components/ui/Reveal'
  */
 export function Technology() {
   return (
-    <Section id="technologia" tone="panel" labelledBy="technologia-cim" index="04">
+    <Section id="technologia" tone="panel" labelledBy="technologia-cim" index="04" glow="arc" glowAt={{ x: '18%', y: '70%' }}>
       <div className="grid gap-10 lg:grid-cols-[minmax(16rem,20rem)_1fr] lg:gap-16">
         <SectionHeading
           id="technologia-cim"
@@ -22,10 +22,10 @@ export function Technology() {
         <ul className="divide-y divide-white/10 border-y border-white/10">
           {technologies.map((tech, index) => (
             <Reveal as="li" key={tech.id} delay={Math.min(index * 45, 135)}>
-              <div className="group grid gap-3 py-7 sm:grid-cols-[4rem_1fr] sm:gap-6">
+              <div className="group grid gap-3 py-7 transition-colors duration-200 hover:bg-white/[0.02] sm:grid-cols-[4rem_1fr] sm:gap-6">
                 <span
                   aria-hidden="true"
-                  className="tabular font-display text-2xl font-bold leading-none text-brand"
+                  className="tabular font-display text-2xl font-bold leading-none text-brand transition-[text-shadow] duration-200 group-hover:[text-shadow:0_0_18px_rgba(215,25,32,0.8)]"
                 >
                   {String(index + 1).padStart(2, '0')}
                 </span>

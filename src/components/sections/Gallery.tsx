@@ -55,7 +55,7 @@ export function Gallery() {
   const current = openIndex !== null ? visible[openIndex] : null
 
   return (
-    <Section id="referenciak" labelledBy="referenciak-cim" index="03">
+    <Section id="referenciak" labelledBy="referenciak-cim" index="03" glow="arc" glowAt={{ x: '85%', y: '22%' }}>
       <div className="grid gap-10 lg:grid-cols-[minmax(16rem,22rem)_1fr] lg:gap-14">
         {/* ---------------- Megtapadó fejrész ---------------- */}
         <div className="lg:sticky lg:top-32 lg:self-start">
@@ -181,10 +181,10 @@ function CaseCard({ item, onOpen }: { item: GalleryCase; onOpen: () => void }) {
     <button
       type="button"
       onClick={onOpen}
-      className="card card-hover group flex h-full w-full flex-col overflow-hidden text-left"
+      className="hover-lift group flex h-full w-full flex-col overflow-hidden rounded-sm border border-white/10 bg-panel/60 text-left shadow-edge hover:border-brand/50 hover:shadow-glow"
     >
       {/* Előtte / utána – piros varrat választja el a két állapotot. */}
-      <div className="relative grid grid-cols-2">
+      <div className="relative grid grid-cols-2 overflow-hidden [&_img]:transition-transform [&_img]:duration-500 group-hover:[&_img]:scale-[1.06]">
         <SmartImage
           src={item.images.before}
           alt={item.images.beforeAlt}
@@ -202,7 +202,7 @@ function CaseCard({ item, onOpen }: { item: GalleryCase; onOpen: () => void }) {
 
         <span
           aria-hidden="true"
-          className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-brand"
+          className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-brand shadow-[0_0_16px_rgba(215,25,32,0.9)]"
         />
         <span className="absolute left-2 top-2 bg-ink/85 px-1.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.14em] text-alu">
           Előtte

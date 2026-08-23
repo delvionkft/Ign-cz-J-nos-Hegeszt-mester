@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { Reveal } from './Reveal'
 
 type Tone = 'base' | 'panel' | 'pit'
+type Glow = 'none' | 'brand' | 'arc'
 
 interface SectionProps {
   id: string
@@ -17,6 +18,10 @@ interface SectionProps {
   index?: string
   /** Felső hajszálvonal a szekció elején. */
   rule?: boolean
+  /** Nagy, lágy fényfolt a háttérben. A `--glow-x/y` a fókuszpontját állítja. */
+  glow?: Glow
+  /** A fényfolt pozíciója, pl. `{ x: '20%', y: '30%' }`. */
+  glowAt?: { x: string; y: string }
 }
 
 const tones: Record<Tone, string> = {
@@ -33,13 +38,33 @@ export function Section({
   labelledBy,
   index,
   rule = true,
+  glow = 'none',
+  glowAt,
 }: SectionProps) {
+  const glowStyle = glowAt
+    ? ({ '--glow-x': glowAt.x, '--glow-y': glowAt.y } as React.CSSProperties)
+    : undefined
+
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn('relative scroll-mt-32 py-16 sm:py-24 lg:py-28', tones[tone], className)}
+      className={cn(
+        'relative isolate scroll-mt-32 overflow-hidden py-16 sm:py-24 lg:py-28',
+        tones[tone],
+        className,
+      )}
     >
+      {glow !== 'none' && (
+        <div
+          aria-hidden="true"
+          style={glowStyle}
+          className={cn(
+            'pointer-events-none absolute inset-0 -z-10',
+            glow === 'brand' ? 'glow-brand' : 'glow-arc',
+          )}
+        />
+      )}
       {rule && (
         <div className="container-content">
           <div className="section-rule" aria-hidden="true" />

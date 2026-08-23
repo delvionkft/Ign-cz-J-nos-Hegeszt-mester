@@ -156,6 +156,57 @@ képek lazy loadinggal, rögzített képaránnyal töltődnek, így nincs elrend
 
 ---
 
+## 4/b. A hero háttérvideó
+
+A hero hátterében valós hegesztési felvétel fut. A fájlok a `public/video/`
+mappában vannak, a hivatkozás a `src/content/hero.ts` → `hero.video` mezőben.
+
+| Fájl | Méret | Szerep |
+|---|---|---|
+| `hero-welding.webm` | ~1,3 MB | VP9 – Chrome, Firefox, Edge, Safari 14.1+ |
+| `hero-welding.mp4` | ~1,2 MB | H.264 – minden más böngésző (tartalék) |
+| `hero-welding-poster.webp` | ~43 KB | Poszterkép betöltés közben és csökkentett mozgás esetén |
+
+**A böngésző csak az egyik videót tölti le** – a `<source>` elemek sorrendje dönt.
+
+### Csere másik felvételre
+
+```bash
+# 1024x576, 24 fps, 11 másodperc, hang nélkül
+ffmpeg -ss 0 -t 11 -i sajat-felvetel.mp4 -an \
+  -vf "scale=1024:576:flags=lanczos,fps=24" \
+  -c:v libvpx-vp9 -crf 50 -b:v 0 -row-mt 1 public/video/hero-welding.webm
+
+ffmpeg -ss 0 -t 11 -i sajat-felvetel.mp4 -an \
+  -vf "scale=1024:576:flags=lanczos,fps=24" \
+  -c:v libx264 -profile:v main -pix_fmt yuv420p -crf 33 -preset veryslow \
+  -movflags +faststart public/video/hero-welding.mp4
+
+# poszterkép egy jellemző képkockából
+ffmpeg -ss 1.5 -i sajat-felvetel.mp4 -frames:v 1 -vf "scale=1280:-1" -q:v 3 /tmp/p.jpg
+ffmpeg -i /tmp/p.jpg -c:v libwebp -quality 72 public/video/hero-welding-poster.webp
+```
+
+**Tartsd 1,5 MB alatt.** A hero videó a mobil adatforgalom terhére megy;
+a felvétel sötétített és részben takart, ezért a magas bitráta felesleges.
+
+### Amit a videó körül megoldottunk
+
+- **Olvashatóság:** a szöveget több rétegű fátyol védi, nem a felvétel véletlen
+  sötét részei. A fátyol iránya reszponzív – mobilon függőleges (keskeny
+  képernyőn egy oldalirányú fátyol az egész felvételt eltakarná), asztali
+  nézetben oldalirányú, hogy jobbra az ívfény szabadon látszódjon.
+- **Mobil kivágás:** keskeny képernyőn a 16:9 felvételből csak szűk sáv fér el.
+  Középre igazítva a hegesztő sisakjának sötét része látszana, ezért az
+  `object-position` az ívfényre és a szikrákra van hangolva (`58% 46%`).
+- **Csökkentett mozgás:** `prefers-reduced-motion` esetén a videó el sem indul,
+  helyette a poszterkép jelenik meg.
+- **Megállítható (WCAG 2.2.2):** a hero jobb alsó sarkában szünet/indítás gomb.
+- **Nincs elrendezésugrás:** a poszterkép azonnal kirajzolódik, így nincs üres
+  fekete első képernyő.
+- **Parallax:** a videóréteg lassabban mozog a görgetésnél (`transform`, a
+  kompozitorban). Mobilon és csökkentett mozgás esetén kikapcsol.
+
 ## 5. Az űrlap bekötése
 
 Az ajánlatkérő űrlap egyetlen bekötési ponton keresztül kommunikál a backenddel:

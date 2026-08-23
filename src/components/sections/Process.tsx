@@ -6,9 +6,12 @@
  * olvasható. A `meta` mezőben lévő tényadatok a site.config.ts `facts`
  * objektumából jönnek; kitöltetlen adat esetén a mondat kimarad.
  */
+import { useState } from 'react'
 import { processSteps, segments } from '@/content'
 import { useSegment } from '@/hooks/useSegment'
+import { useInViewOnce } from '@/hooks/useInView'
 import { interpolate } from '@/lib/text'
+import { cn } from '@/lib/utils'
 import { Section, SectionHeading } from '@/components/ui/Section'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -17,8 +20,13 @@ export function Process() {
   const copy = segments[segment].process
   const steps = processSteps[segment]
 
+  // A sín pirosra „fut ki", amikor a szekció a képernyőre ér – a folyamat
+  // iránya így mozgásban is olvasható.
+  const [railFilled, setRailFilled] = useState(false)
+  const railRef = useInViewOnce<HTMLDivElement>(() => setRailFilled(true), { threshold: 0.25 })
+
   return (
-    <Section id="folyamat" labelledBy="folyamat-cim" index="06">
+    <Section id="folyamat" labelledBy="folyamat-cim" index="06" glow="brand" glowAt={{ x: '50%', y: '30%' }}>
       <SectionHeading
         id="folyamat-cim"
         kicker="Folyamat"
@@ -26,7 +34,7 @@ export function Process() {
         subtitle={copy.subtitle}
       />
 
-      <div className="relative">
+      <div ref={railRef} className="relative">
         {/* Összekötő sín – mobilon függőleges vonal. */}
         <span
           aria-hidden="true"
@@ -36,6 +44,21 @@ export function Process() {
         <span
           aria-hidden="true"
           className="tick-row absolute left-0 top-[13px] hidden h-1.5 w-full lg:block"
+        />
+        {/* A sín pirosra fut ki, jelezve a folyamat irányát. */}
+        <span
+          aria-hidden="true"
+          className={cn(
+            'absolute left-0 top-[15px] hidden h-px bg-brand shadow-[0_0_12px_rgba(215,25,32,0.9)] transition-[width] duration-[1400ms] ease-out lg:block',
+            railFilled ? 'w-full' : 'w-0',
+          )}
+        />
+        <span
+          aria-hidden="true"
+          className={cn(
+            'absolute left-[15px] top-4 w-px bg-brand shadow-[0_0_12px_rgba(215,25,32,0.9)] transition-[height] duration-[1400ms] ease-out lg:hidden',
+            railFilled ? 'h-[calc(100%-2rem)]' : 'h-0',
+          )}
         />
 
         <ol className="relative grid gap-8 lg:grid-cols-4 lg:gap-6">

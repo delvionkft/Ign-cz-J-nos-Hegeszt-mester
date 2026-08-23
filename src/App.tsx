@@ -10,6 +10,7 @@ import { SegmentBar } from '@/components/sections/SegmentBar'
 import { ProblemSelector } from '@/components/sections/ProblemSelector'
 import { PainPoint } from '@/components/sections/PainPoint'
 import { Gallery } from '@/components/sections/Gallery'
+import { CtaBand } from '@/components/sections/CtaBand'
 import { Technology } from '@/components/sections/Technology'
 import { Pricing } from '@/components/sections/Pricing'
 import { Process } from '@/components/sections/Process'
@@ -57,6 +58,8 @@ export default function App() {
         <PainPoint />
         {/* 5. Előtte-utána referenciagaléria */}
         <Gallery />
+        {/* Teljes szélességű CTA-sáv közvetlenül a bizonyíték után */}
+        <CtaBand />
         {/* 6. Technológia közérthetően */}
         <Technology />
         {/* 7. Ár-horgony */}

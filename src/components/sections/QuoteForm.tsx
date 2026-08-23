@@ -219,7 +219,7 @@ export function QuoteForm() {
   const privacyHref = privacy ? resolve(privacy.href) : null
 
   return (
-    <Section id="ajanlatkeres" tone="pit" labelledBy="ajanlatkeres-cim" index="09">
+    <Section id="ajanlatkeres" tone="pit" labelledBy="ajanlatkeres-cim" index="09" glow="brand" glowAt={{ x: '35%', y: '35%' }}>
       <SectionHeading
         id="ajanlatkeres-cim"
         kicker="Ajánlatkérés"
@@ -229,7 +229,7 @@ export function QuoteForm() {
 
       <div className="grid gap-5 lg:grid-cols-[1.55fr_1fr] lg:gap-8">
         {/* --- Az űrlap --- */}
-        <div className="corner-marks relative border border-white/15 bg-panel/40 p-5 shadow-edge sm:p-8">
+        <div className="corner-marks relative border border-white/15 bg-panel/50 p-5 shadow-lift backdrop-blur-sm sm:p-8">
           {result?.status === 'success' ? (
             <SuccessPanel mocked={result.mocked} onReset={() => setResult(null)} ref={summaryRef} />
           ) : (

@@ -26,7 +26,7 @@ export function PainPoint() {
   const hasComparison = Boolean(replacement || solution)
 
   return (
-    <Section id="miert" tone="pit" labelledBy="miert-cim" index="02">
+    <Section id="miert" tone="pit" labelledBy="miert-cim" index="02" glow="brand" glowAt={{ x: '22%', y: '55%' }}>
       <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
         {/* ---------------- Az állítás ---------------- */}
         <div>
@@ -50,7 +50,7 @@ export function PainPoint() {
 
         {/* ---------------- Az összehasonlítás ---------------- */}
         <Reveal delay={110}>
-          <div className="corner-marks relative h-full border border-white/12 bg-panel/40 p-5 shadow-edge sm:p-7">
+          <div className="corner-marks relative h-full border border-white/12 bg-panel/50 p-5 shadow-lift backdrop-blur-sm sm:p-7">
             <TechLabel className="mb-7">Mivel érdemes összevetni</TechLabel>
 
             {hasComparison ? (

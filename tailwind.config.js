@@ -18,6 +18,9 @@ export default {
         },
         // A grafit háttérnél is mélyebb tónus a teljes szélességű sávokhoz.
         pit: '#0B0C0D',
+        // Az ívfény hidegkék csúcsfénye a hero videóból – kizárólag apró
+        // fénypontokhoz és a videós szekció hangulati kötéséhez.
+        arc: '#7FD4FF',
       },
       fontFamily: {
         display: ['Oswald', 'Barlow Condensed', 'Arial Narrow', 'sans-serif'],
@@ -60,6 +63,9 @@ export default {
         DEFAULT: '180ms',
       },
       boxShadow: {
+        glow: '0 0 0 1px rgba(215,25,32,0.35), 0 12px 40px -12px rgba(215,25,32,0.45)',
+        'glow-lg': '0 0 60px -10px rgba(215,25,32,0.55)',
+        'glow-arc': '0 0 50px -12px rgba(127,212,255,0.35)',
         // Megmunkált fémél: felül fénytörés, alul árnyék.
         edge: 'inset 0 1px 0 rgba(255,255,255,0.07), inset 0 -1px 0 rgba(0,0,0,0.45)',
         'edge-strong': 'inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.55)',
@@ -75,6 +81,7 @@ export default {
       },
       backgroundSize: {
         grid: '72px 72px',
+        'grid-sm': '40px 40px',
       },
       keyframes: {
         'fade-up': {
@@ -86,11 +93,33 @@ export default {
           from: { opacity: '0', transform: 'translateY(-8px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
+        },
+        'arc-flicker': {
+          '0%, 100%': { opacity: '0.5' },
+          '45%': { opacity: '0.85' },
+          '55%': { opacity: '0.35' },
+        },
+        'scroll-cue': {
+          '0%': { transform: 'translateY(0)', opacity: '0' },
+          '30%': { opacity: '1' },
+          '100%': { transform: 'translateY(14px)', opacity: '0' },
+        },
+        'rise-in': {
+          from: { opacity: '0', transform: 'translateY(26px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 220ms ease-out both',
         'fade-in': 'fade-in 150ms ease-out both',
         'slide-down': 'slide-down 200ms ease-out both',
+        marquee: 'marquee 38s linear infinite',
+        'arc-flicker': 'arc-flicker 4s ease-in-out infinite',
+        'scroll-cue': 'scroll-cue 1.9s ease-in-out infinite',
+        'rise-in': 'rise-in 620ms cubic-bezier(0.16, 0.84, 0.28, 1) both',
       },
     },
   },
