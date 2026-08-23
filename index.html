@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111315" />
+    <meta name="robots" content="index, follow" />
+
+    <!--
+      A title, meta description, canonical és Open Graph adatok futásidőben,
+      a src/content/site.config.ts alapján frissülnek (lásd src/lib/seo.ts),
+      hogy egyetlen helyen legyenek karbantarthatók.
+      Az alábbiak a kezdeti, tartalék értékek.
+    -->
+    <title>Alumínium- és rozsdamentes hegesztés – öntvényjavítás és egyedi gyártás</title>
+    <meta
+      name="description"
+      content="Alumínium, öntvény és rozsdamentes alkatrészek javítása és egyedi gyártása. Amit máshol cserére ítéltek, azt sok esetben meg lehet javítani. Küldj fotót, és előzetes árat kapsz."
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Betűtípusok: saját kiszolgálású (nincs külső kérés). A latin alkészlet előtöltve. -->
+    <link
+      rel="preload"
+      href="/fonts/oswald-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 24px; font-family: system-ui, sans-serif; color: #f4f4f2; background: #111315">
+        <h1>Alumínium- és rozsdamentes hegesztés</h1>
+        <p>
+          Az oldal megtekintéséhez engedélyezd a JavaScriptet. Ha ez nem lehetséges, hívj telefonon –
+          a telefonszám a Google-találatban és a névjegyben is szerepel.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

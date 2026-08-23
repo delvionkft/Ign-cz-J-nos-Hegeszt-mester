@@ -1,0 +1,116 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    /* A rögzített fejléc magassága – a görgetési eltolásoknál használjuk. */
+    --header-h: 64px;
+  }
+
+  * {
+    @apply border-panel;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* A horgonyra görgetés ne csússzon a rögzített fejléc alá. */
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    /* Vízszintes túlcsordulás megelőzése 320px-től. */
+    overflow-x: hidden;
+    min-width: 320px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold uppercase tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Látható, egységes fókuszállapot minden interaktív elemen. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-ink;
+  }
+
+  /* Képek soha ne csorduljanak túl. */
+  img,
+  svg,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Számmezők nyilai zavaróak érintőképernyőn. */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  /* Szálcsiszolt alumíniumot idéző, visszafogott panelfelület. */
+  .surface-brushed {
+    @apply bg-panel bg-brushed;
+  }
+
+  .hairline {
+    @apply border border-white/10;
+  }
+
+  /* Ferde, műszaki hangulatú elválasztó él. */
+  .edge-notch {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+}
+
+@layer utilities {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Csak képernyőolvasónak. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Mobil alsó CTA-sáv miatti extra alsó térköz. */
+  .pb-safe-cta {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4.5rem);
+  }
+}
