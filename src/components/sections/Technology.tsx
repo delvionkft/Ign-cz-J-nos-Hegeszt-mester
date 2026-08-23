@@ -1,5 +1,6 @@
 import { technologies } from '@/content/technology'
 import { Section, SectionHeading } from '@/components/ui/Section'
+import { Reveal } from '@/components/ui/Reveal'
 
 /**
  * TECHNOLÓGIA – KÖZÉRTHETŐEN
@@ -8,35 +9,39 @@ import { Section, SectionHeading } from '@/components/ui/Section'
  */
 export function Technology() {
   return (
-    <Section id="technologia" tone="panel" labelledBy="technologia-cim">
-      <SectionHeading
-        id="technologia-cim"
-        kicker="Technológia"
-        title="Milyen eljárással dolgozom, és ez neked mit jelent"
-        subtitle="Nem a gépek típusa a lényeg, hanem hogy melyik eljárás mire jó – és mit nyersz vele."
-      />
+    <Section id="technologia" tone="panel" labelledBy="technologia-cim" index="04">
+      <div className="grid gap-10 lg:grid-cols-[minmax(16rem,20rem)_1fr] lg:gap-16">
+        <SectionHeading
+          id="technologia-cim"
+          kicker="Technológia"
+          title="Milyen eljárással dolgozom, és ez neked mit jelent"
+          subtitle="Nem a gépek típusa a lényeg, hanem hogy melyik eljárás mire jó – és mit nyersz vele."
+          className="mb-0 lg:sticky lg:top-32 lg:self-start"
+        />
 
-      <ul className="grid gap-4 sm:grid-cols-2">
-        {technologies.map((tech, index) => (
-          <li
-            key={tech.id}
-            className="flex gap-4 rounded-sm border border-white/10 bg-ink/50 p-5"
-          >
-            <span
-              aria-hidden="true"
-              className="font-display text-2xl font-bold leading-none text-brand"
-            >
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <div>
-              <h3 className="font-display text-lg font-semibold uppercase leading-tight text-paper">
-                {tech.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-alu">{tech.description}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+        <ul className="divide-y divide-white/10 border-y border-white/10">
+          {technologies.map((tech, index) => (
+            <Reveal as="li" key={tech.id} delay={Math.min(index * 45, 135)}>
+              <div className="group grid gap-3 py-7 sm:grid-cols-[4rem_1fr] sm:gap-6">
+                <span
+                  aria-hidden="true"
+                  className="tabular font-display text-2xl font-bold leading-none text-brand"
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3 className="font-display text-display-md font-semibold uppercase text-paper">
+                    {tech.title}
+                  </h3>
+                  <p className="mt-3 max-w-prose text-base leading-relaxed text-alu">
+                    {tech.description}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
     </Section>
   )
 }

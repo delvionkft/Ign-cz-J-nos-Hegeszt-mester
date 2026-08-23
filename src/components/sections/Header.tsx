@@ -71,12 +71,12 @@ export function Header() {
           ) : (
             <span
               aria-hidden="true"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-brand bg-brand/10 font-display text-sm font-bold text-brand-light"
+              className="flex h-10 w-10 shrink-0 items-center justify-center border border-brand bg-brand/10 font-display text-sm font-bold text-brand-light shadow-edge"
             >
               AW
             </span>
           )}
-          <span className="min-w-0 truncate font-display text-base font-semibold uppercase tracking-wide text-paper sm:text-lg">
+          <span className="min-w-0 truncate font-display text-base font-semibold uppercase tracking-[0.04em] text-paper sm:text-lg">
             {name ?? 'Alumínium- és rozsdamentes hegesztés'}
           </span>
         </a>
@@ -94,11 +94,14 @@ export function Header() {
                   }}
                   aria-current={active === item.id ? 'true' : undefined}
                   className={cn(
-                    'block rounded-sm px-3 py-2 text-sm font-medium transition-colors',
+                    'relative block px-3 py-2 font-display text-xs font-semibold uppercase tracking-[0.12em] transition-colors duration-150',
                     active === item.id ? 'text-paper' : 'text-alu hover:text-paper',
                   )}
                 >
                   {item.label}
+                  {active === item.id && (
+                    <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-0.5 bg-brand" />
+                  )}
                 </a>
               </li>
             ))}
@@ -110,7 +113,7 @@ export function Header() {
             <a
               href={`tel:${phone}`}
               onClick={() => track('phone_click', { location: 'header', contactMethod: 'phone' })}
-              className="hidden items-center gap-2 rounded-sm px-3 py-2 text-sm font-semibold text-paper transition-colors hover:text-brand-light sm:flex"
+              className="hidden items-center gap-2 px-3 py-2 font-display text-sm font-semibold tracking-wide text-paper transition-colors duration-150 hover:text-brand-light sm:flex"
             >
               <Icon name="phone" size={16} className="text-brand" />
               <span>{phoneLabel}</span>

@@ -26,7 +26,7 @@ export function LocalSeo() {
   const fullAddress = [postalCode, city, address].filter(Boolean).join(' ')
 
   return (
-    <Section id="kapcsolat" labelledBy="kapcsolat-cim">
+    <Section id="kapcsolat" labelledBy="kapcsolat-cim" index="10">
       <SectionHeading
         id="kapcsolat-cim"
         kicker="Elérhetőség"
@@ -37,7 +37,7 @@ export function LocalSeo() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Adatok */}
         <div className="space-y-6">
-          <dl className="divide-y divide-white/10 border-y border-white/10">
+          <dl className="tabular divide-y divide-white/10 border-y border-white/10">
             {name && (
               <Row icon="shield" label="Vállalkozás">
                 {name}
@@ -106,17 +106,17 @@ export function LocalSeo() {
         </div>
 
         {/* Térkép */}
-        <div className="min-h-[18rem] overflow-hidden rounded-sm border border-white/10 bg-panel">
+        <div className="corner-marks relative min-h-[20rem] overflow-hidden border border-white/12 bg-panel shadow-edge">
           {mapEmbed ? (
             <iframe
               src={mapEmbed}
               title={`${name ?? 'A műhely'} elhelyezkedése a térképen`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="h-full min-h-[18rem] w-full border-0"
+              className="h-full min-h-[20rem] w-full border-0"
             />
           ) : (
-            <div className="flex h-full min-h-[18rem] flex-col items-center justify-center gap-3 bg-brushed p-6 text-center">
+            <div className="flex h-full min-h-[20rem] flex-col items-center justify-center gap-3 bg-brushed p-6 text-center">
               <Icon name="pin" size={28} className="text-steel" />
               <p className="max-w-[30ch] text-sm text-alu">
                 A műhely pontos helye a térképen – a Google Maps beágyazás beállítása után jelenik meg.
@@ -151,8 +151,8 @@ function Row({
 
 function InfoCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-sm border border-white/10 bg-panel/60 p-4">
-      <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-paper">{title}</h3>
+    <div className="border border-white/12 bg-panel/50 p-5 shadow-edge">
+      <h3 className="font-display text-label font-semibold uppercase text-brand-light">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-alu">{children}</p>
     </div>
   )

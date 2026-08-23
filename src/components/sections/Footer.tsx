@@ -18,11 +18,11 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-white/10 bg-ink pb-safe-cta pt-10 sm:pb-10">
+    <footer className="border-t border-white/10 bg-pit pb-safe-cta pt-12 sm:pb-12">
       <div className="container-content">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="font-display text-lg font-semibold uppercase text-paper">
+            <p className="font-display text-display-sm font-semibold uppercase text-paper">
               {name ?? 'Alumínium- és rozsdamentes hegesztés'}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-alu">
@@ -40,7 +40,7 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
           </div>
 
           <nav aria-label="Lábléc navigáció">
-            <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-alu">Oldal</h2>
+            <h2 className="font-display text-label font-semibold uppercase text-steel">Oldal</h2>
             <ul className="mt-3 space-y-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.id}>
@@ -72,7 +72,7 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
           </nav>
 
           <div>
-            <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-alu">Jogi</h2>
+            <h2 className="font-display text-label font-semibold uppercase text-steel">Jogi</h2>
             <ul className="mt-3 space-y-2">
               {legalLinks.map((link) => {
                 const href = resolve(link.href)
@@ -109,7 +109,7 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
           </div>
 
           <div>
-            <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-alu">
+            <h2 className="font-display text-label font-semibold uppercase text-steel">
               Cégadatok
             </h2>
             <ul className="mt-3 space-y-1.5 text-sm text-alu">

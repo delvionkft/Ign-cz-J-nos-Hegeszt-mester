@@ -273,30 +273,68 @@ Beállítás: `VITE_GA4_ID`, `VITE_GTM_ID`, `VITE_META_PIXEL_ID`.
 
 ## 8. Arculat
 
-| Szerep | Hex |
-|---|---|
-| Grafitszürke háttér | `#111315` |
-| Sötét alumíniumszürke | `#292D31` |
-| Középszürke | `#727981` |
-| Világos alumínium | `#BCC1C6` |
-| Törtfehér | `#F4F4F2` |
-| Fő piros akcentus | `#D71920` |
-| Sötétebb piros (hover) | `#AD1117` |
+| Szerep | Hex | Token |
+|---|---|---|
+| Grafitszürke háttér | `#111315` | `ink` |
+| Sötét alumíniumszürke | `#292D31` | `panel` |
+| Középszürke | `#727981` | `steel` |
+| Világos alumínium | `#BCC1C6` | `alu` |
+| Törtfehér | `#F4F4F2` | `paper` |
+| Fő piros akcentus | `#D71920` | `brand` |
+| Sötétebb piros (hover) | `#AD1117` | `brand.dark` |
 
-A színek a `tailwind.config.js`-ben egy helyen módosíthatók
-(`ink`, `panel`, `steel`, `alu`, `paper`, `brand`, `brand.dark`, `brand.light`).
+A színek a `tailwind.config.js`-ben egy helyen módosíthatók. Két származtatott token
+egészíti ki a megadott palettát:
 
-A `brand.light` (`#FF5A60`) kizárólag **kis méretű piros szöveghez** kell sötét háttéren:
-a `#D71920` ekkora méretben nem érné el az AA kontrasztkövetelményt.
+- **`brand.light` (`#FF5A60`)** – kizárólag kis méretű piros szöveghez sötét háttéren.
+  A `#D71920` ekkora méretben nem érné el az AA kontrasztkövetelményt.
+- **`pit` (`#0B0C0D`)** – a grafitnál mélyebb tónus a teljes szélességű sávokhoz, hogy a
+  szekciók ritmusa szín nélkül is olvasható legyen.
 
-Betűtípusok: **Oswald** (címsorok) és **Inter** (törzsszöveg), saját kiszolgálással a
-`public/fonts/` mappából – nincs külső betűtípus-kérés. A latin-ext alkészlet a magyar
-`ő` és `ű` karakterek miatt szükséges.
+### Ahol a piros megjelenhet
+
+Elsődleges CTA, aktív problémakártya, sorszámozás, fókusz- és hover állapot, valamint az
+ártáblázat „javítás ára" oszlopa. Máshol nem – nagy piros háttérfelület sehol nincs.
+
+### Tipográfia
+
+**Oswald** (címsorok, számadatok, műszaki feliratok) és **Inter** (törzsszöveg),
+saját kiszolgálással a `public/fonts/` mappából – nincs külső betűtípus-kérés.
+A latin-ext alkészlet a magyar `ő` és `ű` karakterek miatt szükséges.
+
+A tipográfiai skála folytonos (`clamp()`), és a `tailwind.config.js` `fontSize` blokkjában
+a **méret és a sortáv mindig együtt jár** (`display-2xl`, `display-xl`, `display-lg`,
+`display-md`, `display-sm`, `numeral-xl`, `numeral-lg`, `label`). Ez szándékos: így nem
+fordulhat elő, hogy egy reszponzív `text-*` osztály felülírja a `leading-*` értéket, és a
+sorok egymásra csúsznak.
+
+### Felületkezelés
+
+A fémes hatás nem gradiensből jön, hanem élkezelésből: a `shadow-edge` felül egy hajszálnyi
+fénytörést, alul árnyékot tesz a panelekre – ez adja a megmunkált lemez érzetét.
+Kiegészítő motívumok: `bg-brushed` (szálcsiszolt felület), `bg-grid` (műszaki raszter),
+`corner-marks` (rajzlap-regisztrációs jelek), `tick-row` (mérőléc-osztás),
+`section-rule` (szekcióhatároló hajszálvonal piros indítószakasszal).
+
+### Mozgás
 
 Animációk 150–250 ms között; a `prefers-reduced-motion` beállítást az oldal tiszteletben
 tartja. Nincs automatikusan mozgó carousel, parallax vagy felugró ablak.
 
----
+A görgetéses megjelenést a `src/components/ui/Reveal.tsx` végzi. **A tartalom soha nem
+maradhat láthatatlan:** ha nincs IntersectionObserver vagy a látogató csökkentett mozgást
+kért, a tartalom azonnal látszik; gyors görgetésnél az összevont értesítés is megjelenítést
+vált ki; végső hálóként 1,2 másodperc után minden elem megjelenik.
+
+### Struktúra
+
+- **Szekció-sorszámozás (01–10)** a jobb margón: a landing egy megtervezett sorrend,
+  ezért a számozás valós információt hordoz.
+- **Szegmens-kontextussáv** (`SegmentBar`): görgetés közben is mutatja és válthatóvá teszi
+  az aktuális szegmenst. A problémaválasztó után jelenik meg, az űrlapnál eltűnik.
+- **Megtapadó fejrészek** a galériánál, a technológiánál és a GYIK-nél: a szűrő és a
+  kontextus végig kéznél marad, miközben a tartalom mellette görög.
+- **Váltakozó tónusok** (`base` / `panel` / `pit`) adják a szekciók ritmusát.
 
 ## 9. Akadálymentesség és teljesítmény
 

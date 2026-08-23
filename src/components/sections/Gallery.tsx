@@ -1,7 +1,9 @@
 /**
  * ELŐTTE-UTÁNA REFERENCIAGALÉRIA
- * Az oldal legerősebb bizonyítékblokkja. Szegmens szerint vált,
- * a szegmensen belül szolgáltatástípus szerint szűrhető.
+ * ------------------------------
+ * Az oldal legerősebb bizonyítékblokkja. A szekciócím és a szűrő asztali
+ * nézetben megtapad, miközben a munkák mellette görögnek – így a szűrés
+ * végig kéznél marad.
  */
 import { useMemo, useState } from 'react'
 import { galleryCases, problemCards, segments } from '@/content'
@@ -10,7 +12,8 @@ import { isTodo, resolve } from '@/content/fillable'
 import { useSegment } from '@/hooks/useSegment'
 import { track } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
-import { Section, SectionHeading } from '@/components/ui/Section'
+import { Section } from '@/components/ui/Section'
+import { Reveal } from '@/components/ui/Reveal'
 import { SmartImage } from '@/components/ui/SmartImage'
 import { BeforeAfter } from '@/components/ui/BeforeAfter'
 import { Modal } from '@/components/ui/Modal'
@@ -27,18 +30,18 @@ export function Gallery() {
     [segment],
   )
 
-  const filters = useMemo(
-    () => problemCards.filter((card) => card.segment === segment),
-    [segment],
-  )
-
-  const visible = useMemo(
-    () => (filter === 'all' ? segmentCases : segmentCases.filter((item) => item.problem === filter)),
-    [segmentCases, filter],
-  )
+  const filters = useMemo(() => problemCards.filter((card) => card.segment === segment), [segment])
 
   // Szegmensváltáskor a szűrő visszaáll – így nem marad üres a lista.
   const activeFilter = filters.some((f) => f.id === filter) ? filter : 'all'
+
+  const visible = useMemo(
+    () =>
+      activeFilter === 'all'
+        ? segmentCases
+        : segmentCases.filter((item) => item.problem === activeFilter),
+    [segmentCases, activeFilter],
+  )
 
   const openCase = (index: number) => {
     setOpenIndex(index)
@@ -52,43 +55,68 @@ export function Gallery() {
   const current = openIndex !== null ? visible[openIndex] : null
 
   return (
-    <Section id="referenciak" labelledBy="referenciak-cim">
-      <SectionHeading id="referenciak-cim" kicker="Referenciák" title={copy.title} subtitle={copy.subtitle} />
+    <Section id="referenciak" labelledBy="referenciak-cim" index="03">
+      <div className="grid gap-10 lg:grid-cols-[minmax(16rem,22rem)_1fr] lg:gap-14">
+        {/* ---------------- Megtapadó fejrész ---------------- */}
+        <div className="lg:sticky lg:top-32 lg:self-start">
+          <Reveal>
+            <p className="mb-4 flex items-center gap-3 font-display text-label font-semibold uppercase text-brand-light">
+              <span aria-hidden="true" className="h-2 w-2 shrink-0 bg-brand" />
+              Referenciák
+            </p>
+            <h2 id="referenciak-cim" className="text-display-lg">
+              {copy.title}
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-alu">{copy.subtitle}</p>
+          </Reveal>
 
-      {filters.length > 1 && (
-        <div className="mb-6 flex flex-wrap gap-2" role="group" aria-label="Referenciák szűrése">
-          <FilterChip active={activeFilter === 'all'} onClick={() => setFilter('all')}>
-            Összes ({segmentCases.length})
-          </FilterChip>
-          {filters.map((card) => {
-            const count = segmentCases.filter((item) => item.problem === card.id).length
-            if (count === 0) return null
-            return (
-              <FilterChip
-                key={card.id}
-                active={activeFilter === card.id}
-                onClick={() => setFilter(card.id)}
+          {filters.length > 1 && (
+            <Reveal delay={60}>
+              <div
+                role="group"
+                aria-label="Referenciák szűrése"
+                className="mt-8 flex flex-wrap gap-2 border-t border-white/10 pt-6"
               >
-                {card.title} ({count})
-              </FilterChip>
-            )
-          })}
+                <FilterChip active={activeFilter === 'all'} onClick={() => setFilter('all')}>
+                  Összes
+                  <Count>{segmentCases.length}</Count>
+                </FilterChip>
+                {filters.map((card) => {
+                  const count = segmentCases.filter((item) => item.problem === card.id).length
+                  if (count === 0) return null
+                  return (
+                    <FilterChip
+                      key={card.id}
+                      active={activeFilter === card.id}
+                      onClick={() => setFilter(card.id)}
+                    >
+                      {card.title}
+                      <Count>{count}</Count>
+                    </FilterChip>
+                  )
+                })}
+              </div>
+            </Reveal>
+          )}
         </div>
-      )}
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((item, index) => (
-          <li key={item.id}>
-            <CaseCard item={item} onOpen={() => openCase(index)} />
-          </li>
-        ))}
-      </ul>
+        {/* ---------------- A munkák ---------------- */}
+        <div>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {visible.map((item, index) => (
+              <Reveal as="li" key={item.id} delay={Math.min((index % 4) * 45, 135)}>
+                <CaseCard item={item} onOpen={() => openCase(index)} />
+              </Reveal>
+            ))}
+          </ul>
 
-      {visible.length === 0 && (
-        <p className="rounded-sm border border-white/10 bg-panel/60 p-6 text-center text-sm text-alu">
-          Ehhez a szűréshez jelenleg nincs feltöltött munka.
-        </p>
-      )}
+          {visible.length === 0 && (
+            <p className="rounded-sm border border-white/10 bg-panel/50 p-8 text-center text-sm text-alu">
+              Ehhez a szűréshez jelenleg nincs feltöltött munka.
+            </p>
+          )}
+        </div>
+      </div>
 
       <Modal
         open={current !== null}
@@ -111,6 +139,12 @@ export function Gallery() {
   )
 }
 
+function Count({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="tabular ml-2 text-[11px] font-normal opacity-60">{children}</span>
+  )
+}
+
 function FilterChip({
   active,
   onClick,
@@ -126,10 +160,10 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'rounded-sm border px-3 py-1.5 text-sm font-medium transition-colors duration-150',
+        'inline-flex items-center rounded-sm border px-3 py-1.5 font-display text-xs font-semibold uppercase tracking-wide transition-colors duration-150',
         active
           ? 'border-brand bg-brand text-white'
-          : 'border-white/15 bg-panel/60 text-alu hover:border-alu/50 hover:text-paper',
+          : 'border-white/12 bg-panel/50 text-alu hover:border-alu/40 hover:text-paper',
       )}
     >
       {children}
@@ -147,67 +181,71 @@ function CaseCard({ item, onOpen }: { item: GalleryCase; onOpen: () => void }) {
     <button
       type="button"
       onClick={onOpen}
-      className="group flex h-full w-full flex-col rounded-sm border border-white/10 bg-panel/60 text-left transition-colors duration-150 hover:border-alu/50 hover:bg-panel"
+      className="card card-hover group flex h-full w-full flex-col overflow-hidden text-left"
     >
-      <div className="relative grid grid-cols-2 gap-px bg-white/10">
-        <div className="relative">
-          <SmartImage
-            src={item.images.before}
-            alt={item.images.beforeAlt}
-            ratio="1 / 1"
-            sizes="(max-width: 640px) 50vw, 200px"
-            placeholderLabel={item.title}
-          />
-          <span className="absolute left-1.5 top-1.5 rounded-sm bg-ink/85 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-alu">
-            Előtte
-          </span>
-        </div>
-        <div className="relative">
-          <SmartImage
-            src={item.images.after}
-            alt={item.images.afterAlt}
-            ratio="1 / 1"
-            sizes="(max-width: 640px) 50vw, 200px"
-            placeholderLabel={item.title}
-          />
-          <span className="absolute left-1.5 top-1.5 rounded-sm bg-brand px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
-            Utána
-          </span>
-        </div>
-        <span className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-sm bg-ink/85 text-alu transition-colors group-hover:text-paper">
+      {/* Előtte / utána – piros varrat választja el a két állapotot. */}
+      <div className="relative grid grid-cols-2">
+        <SmartImage
+          src={item.images.before}
+          alt={item.images.beforeAlt}
+          ratio="1 / 1"
+          sizes="(max-width: 640px) 50vw, 220px"
+          placeholderLabel={item.title}
+        />
+        <SmartImage
+          src={item.images.after}
+          alt={item.images.afterAlt}
+          ratio="1 / 1"
+          sizes="(max-width: 640px) 50vw, 220px"
+          placeholderLabel={item.title}
+        />
+
+        <span
+          aria-hidden="true"
+          className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-brand"
+        />
+        <span className="absolute left-2 top-2 bg-ink/85 px-1.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.14em] text-alu">
+          Előtte
+        </span>
+        <span className="absolute right-2 top-2 bg-brand px-1.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+          Utána
+        </span>
+        <span className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center bg-ink/85 text-alu transition-colors duration-150 group-hover:bg-brand group-hover:text-white">
           <Icon name="zoom" size={16} />
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-display text-base font-semibold uppercase leading-tight text-paper">
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-display-sm font-semibold uppercase text-paper">
           {item.title}
         </h3>
         {issue && <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-alu">{issue}</p>}
 
-        <dl className="mt-auto space-y-1.5 pt-4 text-sm">
-          {replacementCost && (
-            <div className="flex justify-between gap-3">
-              <dt className="text-steel">Csere ára lett volna</dt>
-              <dd className="text-right text-alu line-through decoration-steel">{replacementCost}</dd>
-            </div>
-          )}
-          {repairCost && (
-            <div className="flex justify-between gap-3">
-              <dt className="text-alu">Amibe került</dt>
-              <dd className="text-right font-display font-semibold text-brand-light">{repairCost}</dd>
-            </div>
-          )}
-          {duration && (
-            <div className="flex justify-between gap-3">
-              <dt className="text-steel">Átfutás</dt>
-              <dd className="text-right text-alu">{duration}</dd>
-            </div>
-          )}
-        </dl>
+        {(replacementCost || repairCost || duration) && (
+          <dl className="tabular mt-auto flex flex-wrap items-baseline gap-x-4 gap-y-2 border-t border-white/10 pt-4 text-sm">
+            {replacementCost && (
+              <div className="min-w-0">
+                <dt className="text-xs text-steel">Csere ára lett volna</dt>
+                <dd className="text-alu line-through decoration-steel">{replacementCost}</dd>
+              </div>
+            )}
+            {repairCost && (
+              <div className="min-w-0">
+                <dt className="text-xs text-steel">Amibe került</dt>
+                <dd className="font-display text-lg font-bold text-brand-light">{repairCost}</dd>
+              </div>
+            )}
+            {duration && (
+              <div className="min-w-0">
+                <dt className="text-xs text-steel">Átfutás</dt>
+                <dd className="text-alu">{duration}</dd>
+              </div>
+            )}
+          </dl>
+        )}
 
         {import.meta.env.DEV && isTodo(item.images.before) && (
-          <p className="mt-3 border-t border-brand/30 pt-2 text-[11px] text-brand-light">
+          <p className="mt-4 border-t border-brand/30 pt-2.5 text-[11px] text-brand-light">
             Kitöltendő: fotók és adatok
           </p>
         )}
@@ -236,25 +274,28 @@ function CaseDetail({ item, index, total }: { item: GalleryCase; index: number; 
         beforeAlt={item.images.beforeAlt}
         afterAlt={item.images.afterAlt}
         ratio="16 / 10"
+        placeholderLabel={`${item.title} – előtte-utána fotópár helye`}
       />
 
-      <div className="p-5 sm:p-6">
-        <div className="mb-4 flex flex-wrap items-center gap-3">
-          <h2 className="font-display text-xl font-semibold uppercase text-paper sm:text-2xl">{item.title}</h2>
+      <div className="p-5 sm:p-7">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
+          <h2 className="font-display text-display-md font-semibold uppercase text-paper">
+            {item.title}
+          </h2>
           {category && (
-            <span className="rounded-sm border border-white/15 px-2 py-0.5 text-xs text-alu">
+            <span className="border border-white/12 px-2 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.14em] text-steel">
               {category.title}
             </span>
           )}
-          <span className="ml-auto text-xs text-steel">
+          <span className="tabular ml-auto text-xs text-steel">
             {index + 1} / {total}
           </span>
         </div>
 
         {rows.length > 0 ? (
-          <dl className="divide-y divide-white/10 border-y border-white/10">
+          <dl className="tabular divide-y divide-white/10 border-y border-white/10">
             {rows.map((row) => (
-              <div key={row.label} className="grid gap-1 py-3 sm:grid-cols-[13rem_1fr] sm:gap-4">
+              <div key={row.label} className="grid gap-1 py-3.5 sm:grid-cols-[14rem_1fr] sm:gap-6">
                 <dt className="text-sm text-steel">{row.label}</dt>
                 <dd className="text-sm leading-relaxed text-paper">{row.value}</dd>
               </div>
@@ -267,7 +308,7 @@ function CaseDetail({ item, index, total }: { item: GalleryCase; index: number; 
         )}
 
         {total > 1 && (
-          <p className="mt-4 text-xs text-steel">
+          <p className="mt-5 text-xs text-steel">
             Tipp: a bal és jobb nyílbillentyűvel léptethetsz a munkák között.
           </p>
         )}

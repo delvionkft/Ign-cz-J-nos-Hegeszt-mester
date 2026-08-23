@@ -16,10 +16,26 @@ export default {
           // Kis méretű piros szöveghez sötét háttéren (AA kontraszt miatt).
           light: '#FF5A60',
         },
+        // A grafit háttérnél is mélyebb tónus a teljes szélességű sávokhoz.
+        pit: '#0B0C0D',
       },
       fontFamily: {
         display: ['Oswald', 'Barlow Condensed', 'Arial Narrow', 'sans-serif'],
         sans: ['Inter', 'Manrope', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+      },
+      fontSize: {
+        // Folytonos tipográfiai skála – a méret és a sortáv mindig együtt jár,
+        // így a reszponzív text-* osztály nem tud sortávot felülírni.
+        'display-2xl': ['clamp(2.125rem, 4.9vw, 4.25rem)', { lineHeight: '1.0', letterSpacing: '-0.015em' }],
+        'display-xl': ['clamp(1.875rem, 4vw, 3.25rem)', { lineHeight: '1.02', letterSpacing: '-0.012em' }],
+        'display-lg': ['clamp(1.625rem, 3vw, 2.375rem)', { lineHeight: '1.06', letterSpacing: '-0.008em' }],
+        'display-md': ['clamp(1.35rem, 2.2vw, 1.75rem)', { lineHeight: '1.12', letterSpacing: '-0.005em' }],
+        'display-sm': ['1.125rem', { lineHeight: '1.2' }],
+        // Nagy számadatokhoz (bizalmi sáv, ár-összehasonlítás).
+        'numeral-xl': ['clamp(2.25rem, 5vw, 3.75rem)', { lineHeight: '0.9', letterSpacing: '-0.02em' }],
+        'numeral-lg': ['clamp(1.75rem, 3vw, 2.5rem)', { lineHeight: '0.95', letterSpacing: '-0.015em' }],
+        // Műszaki feliratok.
+        label: ['0.6875rem', { lineHeight: '1.3', letterSpacing: '0.18em' }],
       },
       borderRadius: {
         // Éles, műszaki formavilág: legfeljebb 8px kerekítés.
@@ -34,31 +50,47 @@ export default {
         full: '9999px',
       },
       maxWidth: {
-        content: '1200px',
+        content: '1280px',
+        prose: '68ch',
+      },
+      spacing: {
+        gutter: 'clamp(1rem, 4vw, 2.5rem)',
       },
       transitionDuration: {
         DEFAULT: '180ms',
       },
+      boxShadow: {
+        // Megmunkált fémél: felül fénytörés, alul árnyék.
+        edge: 'inset 0 1px 0 rgba(255,255,255,0.07), inset 0 -1px 0 rgba(0,0,0,0.45)',
+        'edge-strong': 'inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.55)',
+        lift: '0 18px 40px -24px rgba(0,0,0,0.9)',
+      },
       backgroundImage: {
         // Szálcsiszolt alumíniumot idéző, nagyon visszafogott felület.
         brushed:
-          'repeating-linear-gradient(180deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 3px)',
-        'brushed-h':
-          'repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 4px)',
+          'repeating-linear-gradient(112deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 4px)',
+        // Műszaki rajzot idéző raszter a teljes szélességű sávokhoz.
+        grid:
+          'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        grid: '72px 72px',
       },
       keyframes: {
         'fade-up': {
-          from: { opacity: '0', transform: 'translateY(8px)' },
+          from: { opacity: '0', transform: 'translateY(10px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
-        'fade-in': {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
+        'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } },
+        'slide-down': {
+          from: { opacity: '0', transform: 'translateY(-8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 200ms ease-out both',
+        'fade-up': 'fade-up 220ms ease-out both',
         'fade-in': 'fade-in 150ms ease-out both',
+        'slide-down': 'slide-down 200ms ease-out both',
       },
     },
   },

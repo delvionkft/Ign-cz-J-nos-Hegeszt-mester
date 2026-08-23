@@ -219,7 +219,7 @@ export function QuoteForm() {
   const privacyHref = privacy ? resolve(privacy.href) : null
 
   return (
-    <Section id="ajanlatkeres" tone="panel" labelledBy="ajanlatkeres-cim">
+    <Section id="ajanlatkeres" tone="pit" labelledBy="ajanlatkeres-cim" index="09">
       <SectionHeading
         id="ajanlatkeres-cim"
         kicker="Ajánlatkérés"
@@ -227,9 +227,9 @@ export function QuoteForm() {
         subtitle={copy.subtitle}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr] lg:gap-10">
+      <div className="grid gap-5 lg:grid-cols-[1.55fr_1fr] lg:gap-8">
         {/* --- Az űrlap --- */}
-        <div className="rounded-sm border border-white/10 bg-ink/60 p-5 sm:p-6">
+        <div className="corner-marks relative border border-white/15 bg-panel/40 p-5 shadow-edge sm:p-8">
           {result?.status === 'success' ? (
             <SuccessPanel mocked={result.mocked} onReset={() => setResult(null)} ref={summaryRef} />
           ) : (
@@ -436,7 +436,7 @@ export function QuoteForm() {
                 {errors.consent && <ErrorText id={`${fieldId('consent')}-error`}>{errors.consent}</ErrorText>}
               </div>
 
-              <Button type="submit" size="lg" disabled={submitting} className="mt-6 w-full">
+              <Button type="submit" size="lg" disabled={submitting} className="mt-7 w-full">
                 {submitting ? 'Küldés folyamatban…' : copy.submitLabel}
               </Button>
 
@@ -448,7 +448,7 @@ export function QuoteForm() {
         </div>
 
         {/* --- Alternatív csatornák --- */}
-        <aside className="rounded-sm border border-white/10 bg-panel/60 p-5 sm:p-6">
+        <aside className="h-fit border border-white/12 bg-pit p-5 shadow-edge sm:p-7 lg:sticky lg:top-32">
           {hasContactChannels() && (
             <>
               <h3 className="font-display text-lg font-semibold uppercase leading-tight text-paper">
@@ -461,7 +461,7 @@ export function QuoteForm() {
             </>
           )}
 
-          <h4 className="font-display text-sm font-semibold uppercase tracking-wider text-alu">
+          <h4 className="font-display text-label font-semibold uppercase text-steel">
             Milyen fotó a jó?
           </h4>
           <ul className="mt-3 space-y-2 text-sm text-alu">
@@ -487,7 +487,7 @@ export function QuoteForm() {
 
 function inputClass(hasError: boolean) {
   return cn(
-    'w-full rounded-sm border bg-ink px-3 py-2.5 text-base text-paper transition-colors',
+    'w-full rounded-sm border bg-ink px-3.5 py-3 text-base text-paper shadow-edge transition-colors duration-150',
     'placeholder:text-steel focus:border-brand focus:outline-none',
     hasError ? 'border-brand' : 'border-white/15 hover:border-alu/40',
   )
@@ -573,8 +573,8 @@ function PhotoUpload({
 
       <div
         className={cn(
-          'rounded-sm border border-dashed p-4',
-          error ? 'border-brand bg-brand/5' : 'border-white/20 bg-ink/40',
+          'rounded-sm border border-dashed p-5',
+          error ? 'border-brand bg-brand/[0.07]' : 'border-white/20 bg-ink/60',
         )}
       >
         <div className="flex flex-wrap gap-2">

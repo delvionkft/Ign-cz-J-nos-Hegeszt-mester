@@ -6,6 +6,7 @@ import { applyLocalBusinessSchema, applySeo } from '@/lib/seo'
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { TrustBar } from '@/components/sections/TrustBar'
+import { SegmentBar } from '@/components/sections/SegmentBar'
 import { ProblemSelector } from '@/components/sections/ProblemSelector'
 import { PainPoint } from '@/components/sections/PainPoint'
 import { Gallery } from '@/components/sections/Gallery'
@@ -42,6 +43,8 @@ export default function App() {
       </a>
 
       <Header />
+      {/* Görgetés közben is látható és váltható szegmens-kontextus. */}
+      <SegmentBar />
 
       <main id="main">
         {/* 1. Hero – egyetlen erős ígéret */}

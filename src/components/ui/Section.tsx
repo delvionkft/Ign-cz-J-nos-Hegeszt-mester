@@ -1,27 +1,62 @@
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
+import { Reveal } from './Reveal'
+
+type Tone = 'base' | 'panel' | 'pit'
 
 interface SectionProps {
   id: string
   children: ReactNode
   className?: string
-  /** Világosabb panelfelület a váltakozó ritmushoz. */
-  tone?: 'base' | 'panel'
+  tone?: Tone
   labelledBy?: string
+  /**
+   * Kétjegyű sorszám a bal margón. A landing egy megtervezett sorrend,
+   * ezért a számozás valós információt hordoz, nem díszítés.
+   */
+  index?: string
+  /** Felső hajszálvonal a szekció elején. */
+  rule?: boolean
 }
 
-export function Section({ id, children, className, tone = 'base', labelledBy }: SectionProps) {
+const tones: Record<Tone, string> = {
+  base: '',
+  panel: 'bg-panel/25',
+  pit: 'bg-pit',
+}
+
+export function Section({
+  id,
+  children,
+  className,
+  tone = 'base',
+  labelledBy,
+  index,
+  rule = true,
+}: SectionProps) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn(
-        'scroll-mt-24 py-14 sm:py-20',
-        tone === 'panel' && 'bg-panel/40 border-y border-white/5',
-        className,
-      )}
+      className={cn('relative scroll-mt-32 py-16 sm:py-24 lg:py-28', tones[tone], className)}
     >
-      <div className="container-content">{children}</div>
+      {rule && (
+        <div className="container-content">
+          <div className="section-rule" aria-hidden="true" />
+        </div>
+      )}
+
+      <div className="container-content relative pt-10 sm:pt-14">
+        {index && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-4 right-4 font-display text-5xl font-bold leading-none text-white/[0.05] sm:-top-6 sm:right-6 sm:text-6xl lg:-top-8 lg:right-10 lg:text-7xl"
+          >
+            {index}
+          </span>
+        )}
+        {children}
+      </div>
     </section>
   )
 }
@@ -29,10 +64,11 @@ export function Section({ id, children, className, tone = 'base', labelledBy }: 
 interface SectionHeadingProps {
   id?: string
   kicker?: string
-  title: string
+  title: ReactNode
   subtitle?: string
-  align?: 'left' | 'center'
   className?: string
+  /** Kisebb léptékű változat oldalsó oszlopokhoz. */
+  size?: 'lg' | 'md'
 }
 
 export function SectionHeading({
@@ -40,21 +76,38 @@ export function SectionHeading({
   kicker,
   title,
   subtitle,
-  align = 'left',
   className,
+  size = 'lg',
 }: SectionHeadingProps) {
   return (
-    <header className={cn('mb-8 sm:mb-12', align === 'center' && 'text-center mx-auto max-w-3xl', className)}>
+    <Reveal as="header" className={cn('mb-10 sm:mb-14', className)}>
       {kicker && (
-        <p className="mb-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-light">
-          <span aria-hidden="true" className="h-px w-8 bg-brand" />
+        <p className="mb-4 flex items-center gap-3 font-display text-label font-semibold uppercase text-brand-light">
+          <span aria-hidden="true" className="h-2 w-2 shrink-0 bg-brand" />
           {kicker}
         </p>
       )}
-      <h2 id={id} className="text-2xl/[1.15] sm:text-3xl/[1.15] lg:text-4xl/[1.12]">
+      <h2 id={id} className={size === 'lg' ? 'text-display-lg' : 'text-display-md'}>
         {title}
       </h2>
-      {subtitle && <p className="mt-4 max-w-3xl text-base leading-relaxed text-alu">{subtitle}</p>}
-    </header>
+      {subtitle && (
+        <p className="mt-5 max-w-prose text-base leading-relaxed text-alu sm:text-lg">{subtitle}</p>
+      )}
+    </Reveal>
+  )
+}
+
+/** Műszaki eyebrow-felirat mérőléc-osztással – szekción belüli alcímekhez. */
+export function TechLabel({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <p
+      className={cn(
+        'flex items-center gap-3 font-display text-label font-semibold uppercase text-steel',
+        className,
+      )}
+    >
+      <span className="whitespace-nowrap">{children}</span>
+      <span aria-hidden="true" className="tick-row h-2 flex-1" />
+    </p>
   )
 }

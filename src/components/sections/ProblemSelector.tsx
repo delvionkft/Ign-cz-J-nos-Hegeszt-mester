@@ -10,9 +10,9 @@
  */
 import { useRef } from 'react'
 import { problemCards, segments } from '@/content'
-import type { ProblemId } from '@/content/types'
 import { useSegment } from '@/hooks/useSegment'
 import { Section, SectionHeading } from '@/components/ui/Section'
+import { Reveal } from '@/components/ui/Reveal'
 import { Icon } from '@/components/ui/Icon'
 import { cn } from '@/lib/utils'
 
@@ -20,7 +20,6 @@ export function ProblemSelector() {
   const { problem, segment, selectProblem } = useSegment()
   const buttonsRef = useRef<Array<HTMLButtonElement | null>>([])
 
-  // Ha még nincs konkrét választás, a jelenlegi szegmens első kártyája kapja a fókuszt.
   const focusIndex = problem
     ? problemCards.findIndex((card) => card.id === problem)
     : Math.max(0, problemCards.findIndex((card) => card.segment === segment))
@@ -42,7 +41,7 @@ export function ProblemSelector() {
   }
 
   return (
-    <Section id="javitasok" labelledBy="javitasok-cim">
+    <Section id="javitasok" labelledBy="javitasok-cim" index="01">
       <SectionHeading
         id="javitasok-cim"
         kicker="Problémaválasztó"
@@ -58,79 +57,91 @@ export function ProblemSelector() {
         {problemCards.map((card, index) => {
           const selected = problem === card.id
           return (
-            <button
-              key={card.id}
-              ref={(node) => {
-                buttonsRef.current[index] = node
-              }}
-              type="button"
-              role="radio"
-              aria-checked={selected}
-              tabIndex={index === focusIndex ? 0 : -1}
-              onClick={() => selectProblem(card.id, 'problem_selector')}
-              onKeyDown={(event) => onKeyDown(event, index)}
-              className={cn(
-                'group relative flex h-full flex-col rounded-sm border p-4 text-left transition-colors duration-150 sm:p-5',
-                selected
-                  ? 'border-brand bg-brand/10'
-                  : 'border-white/10 bg-panel/60 hover:border-alu/50 hover:bg-panel',
-              )}
-            >
-              {/* Aktív állapot jelzése színen kívül is (ikon + vastag él). */}
-              {selected && (
+            <Reveal key={card.id} delay={Math.min(index * 45, 160)} className="h-full">
+              <button
+                ref={(node) => {
+                  buttonsRef.current[index] = node
+                }}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                tabIndex={index === focusIndex ? 0 : -1}
+                onClick={() => selectProblem(card.id, 'problem_selector')}
+                onKeyDown={(event) => onKeyDown(event, index)}
+                className={cn(
+                  'group relative flex h-full w-full flex-col overflow-hidden rounded-sm border p-5 text-left shadow-edge transition-colors duration-150 sm:p-6',
+                  selected
+                    ? 'border-brand bg-brand/[0.09]'
+                    : 'border-white/10 bg-panel/55 hover:border-alu/35 hover:bg-panel',
+                )}
+              >
+                {/* Aktív jelzés színen kívül is: bal oldali sín + jelölés. */}
                 <span
                   aria-hidden="true"
-                  className="absolute inset-y-0 left-0 w-1 bg-brand"
+                  className={cn(
+                    'absolute inset-y-0 left-0 w-1 transition-colors duration-150',
+                    selected ? 'bg-brand' : 'bg-transparent group-hover:bg-white/15',
+                  )}
                 />
-              )}
 
-              <span className="mb-3 flex items-center justify-between gap-3">
-                <Icon
-                  name={card.icon}
-                  size={28}
-                  className={cn('transition-colors', selected ? 'text-brand-light' : 'text-steel group-hover:text-alu')}
-                />
-                {selected && (
-                  <span className="flex items-center gap-1 rounded-sm bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                    <Icon name="check" size={12} />
-                    Kiválasztva
-                  </span>
-                )}
-              </span>
-
-              <span className="font-display text-lg font-semibold uppercase leading-tight text-paper">
-                {card.title}
-              </span>
-              <span className="mt-2 text-sm leading-relaxed text-alu">{card.description}</span>
-
-              <span className="mt-3 flex flex-wrap gap-1.5">
-                {card.examples.map((example) => (
+                <span className="mb-5 flex items-start justify-between gap-3">
+                  <Icon
+                    name={card.icon}
+                    size={40}
+                    strokeWidth={1.25}
+                    className={cn(
+                      'transition-colors duration-150',
+                      selected ? 'text-brand-light' : 'text-steel group-hover:text-alu',
+                    )}
+                  />
                   <span
-                    key={example}
-                    className="rounded-sm border border-white/10 px-2 py-0.5 text-[11px] text-alu/80"
+                    className={cn(
+                      'shrink-0 rounded-sm px-2 py-1 font-display text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-150',
+                      selected
+                        ? 'bg-brand text-white'
+                        : 'border border-white/10 text-steel group-hover:text-alu',
+                    )}
                   >
-                    {example}
+                    {selected ? 'Kiválasztva' : segments[card.segment].shortLabel}
                   </span>
-                ))}
-              </span>
-            </button>
+                </span>
+
+                <span className="font-display text-display-sm font-semibold uppercase text-paper">
+                  {card.title}
+                </span>
+                <span className="mt-2.5 text-sm leading-relaxed text-alu">{card.description}</span>
+
+                <span className="mt-5 flex flex-wrap gap-1.5 border-t border-white/10 pt-4">
+                  {card.examples.map((example, exampleIndex) => (
+                    <span key={example} className="text-xs text-steel">
+                      {example}
+                      {/* Elválasztó csak az elemek KÖZÖTT, az utolsó után nem. */}
+                      {exampleIndex < card.examples.length - 1 && (
+                        <span aria-hidden="true" className="ml-1.5 text-white/15">
+                          ·
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </span>
+              </button>
+            </Reveal>
           )
         })}
       </div>
 
-      <p aria-live="polite" className="mt-5 text-sm text-alu">
-        Aktuális nézet:{' '}
-        <strong className="font-semibold text-paper">{segments[segment].label}</strong>
-        {problem && (
-          <>
-            {' – '}
-            {problemCards.find((card) => card.id === problem)?.title}
-          </>
-        )}
-        . Az alábbi szekciók ehhez igazodnak.
+      <p
+        aria-live="polite"
+        className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-steel"
+      >
+        <span aria-hidden="true" className="h-px w-8 bg-brand" />
+        Aktuális nézet:
+        <strong className="font-display font-semibold uppercase text-paper">
+          {segments[segment].label}
+        </strong>
+        {problem && <span>– {problemCards.find((card) => card.id === problem)?.title}</span>}
+        <span>· az alábbi szekciók ehhez igazodnak.</span>
       </p>
     </Section>
   )
 }
-
-export type { ProblemId }
