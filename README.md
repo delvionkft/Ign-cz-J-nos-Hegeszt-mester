@@ -411,8 +411,17 @@ nincs kitöltve, a szakma neve áll ott.
   ezért a számozás valós információt hordoz.
 - **Szegmens-kontextussáv** (`SegmentBar`): görgetés közben is mutatja és válthatóvá teszi
   az aktuális szegmenst. A problémaválasztó után jelenik meg, az űrlapnál eltűnik.
-- **Megtapadó fejrészek** a galériánál, a technológiánál és a GYIK-nél: a szűrő és a
-  kontextus végig kéznél marad, miközben a tartalom mellette görög.
+- **Megtapadó fejrészek** a galériánál, a technológiánál, az áraknál és a GYIK-nél:
+  a bal oldali fejrész (cím, szűrő, CTA) a helyén marad, miközben a hosszabb tartalom
+  (kártyalista, táblázat) mellette görög (`lg:sticky lg:top-32`, 1024 px alatt egymás
+  alá rendeződik). Rövidebb jobb oldali tartalomnál (pl. a technológia négy pontja) a
+  fejrész csak addig ragad be, ameddig a szekcióban tartalom van alatta – ez a
+  `position: sticky` szabványos, elvárt viselkedése, nem hiba.
+  **Fontos, könnyen elrontható részlet:** a `body`-n és a `Section`-ön szándékosan
+  `overflow-x: clip` / `overflow-clip` szerepel `hidden` helyett. A sima
+  `overflow: hidden` görgetési konténert hoz létre, ami minden leszármazott
+  `position: sticky` elemet megtörne – ha új szekciót vagy globális stílust adsz
+  hozzá, kerüld a `hidden` értéket bármelyik sticky elem ősén.
 - **Váltakozó tónusok** (`base` / `panel` / `pit`) adják a szekciók ritmusát.
 
 ## 9. Akadálymentesség és teljesítmény

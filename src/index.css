@@ -39,8 +39,18 @@
 
   body {
     @apply bg-ink text-paper font-sans antialiased;
-    /* Vízszintes túlcsordulás megelőzése 320px-től. */
+    /*
+       Vízszintes túlcsordulás megelőzése 320px-től.
+       SZÁNDÉKOSAN `clip`, nem `hidden`: az `overflow-x: hidden` a CSS
+       specifikáció szerint a másik tengelyt (overflow-y, alapból `visible`)
+       `auto`-ra kényszerítené, ezzel a body görgetési konténerré válna –
+       ez pedig megtöri az összes leszármazott `position: sticky` elemet
+       (galéria, technológia, árak, GYIK fejrésze). A `clip` ugyanúgy elvágja
+       a túllógó tartalmat, de nem hoz létre görgetési kontextust.
+       Tartalék: nem támogató böngészőben a `hidden` marad érvényben.
+    */
     overflow-x: hidden;
+    overflow-x: clip;
     min-width: 320px;
   }
 

@@ -6,6 +6,10 @@
  *
  * A táblázat akkor is látszik, ha egy-egy ársáv még nincs kitöltve –
  * a munkatípusok valós tartalmat hordoznak, így az ár-horgony nem tűnik el.
+ *
+ * ELRENDEZÉS: a fejrész (cím, magyarázat, CTA) asztali nézetben megtapad
+ * a bal oldalon, miközben a hosszabb táblázat/kártyalista mellette görög –
+ * ugyanaz a minta, mint a galériánál, a technológiánál és a GYIK-nél.
  */
 import { cooperationModels, priceRanges, segments } from '@/content'
 import { resolve } from '@/content/fillable'
@@ -13,7 +17,7 @@ import { useSegment } from '@/hooks/useSegment'
 import { useInViewOnce } from '@/hooks/useInView'
 import { track } from '@/lib/analytics'
 import { scrollToSection } from '@/lib/utils'
-import { Section, SectionHeading } from '@/components/ui/Section'
+import { Section } from '@/components/ui/Section'
 import { Reveal } from '@/components/ui/Reveal'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
@@ -30,32 +34,45 @@ export function Pricing() {
 
   return (
     <Section id="arak" tone="pit" labelledBy="arak-cim" index="05" glow="brand" glowAt={{ x: '70%', y: '40%' }}>
-      <SectionHeading id="arak-cim" kicker="Árak" title={copy.title} subtitle={copy.subtitle} />
+      <div className="grid gap-10 lg:grid-cols-[minmax(16rem,22rem)_1fr] lg:gap-14">
+        {/* ---------------- Megtapadó fejrész ---------------- */}
+        <div className="lg:sticky lg:top-32 lg:self-start">
+          <Reveal>
+            <p className="mb-4 flex items-center gap-3 font-display text-label font-semibold uppercase text-brand-light">
+              <span aria-hidden="true" className="h-2 w-2 shrink-0 bg-brand" />
+              Árak
+            </p>
+            <h2 id="arak-cim" className="text-display-lg">
+              {copy.title}
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-alu">{copy.subtitle}</p>
+          </Reveal>
 
-      <div ref={ref}>
-        {copy.mode === 'models' ? <CooperationGrid /> : <PriceTable rows={rows} />}
-      </div>
-
-      <Reveal delay={80}>
-        <div className="mt-6 flex flex-col gap-5 border border-white/12 bg-panel/40 p-5 shadow-edge sm:flex-row sm:items-center sm:justify-between sm:p-6">
-          <p className="flex items-start gap-3 text-sm leading-relaxed text-alu">
-            <Icon name="info" size={18} className="mt-0.5 shrink-0 text-brand" />
-            <span>
-              A fenti sávok tájékoztató jellegűek. A pontos árat a munkadarab ismeretében, fotó
-              alapján adom meg – ez még nem megrendelés.
-            </span>
-          </p>
-          <Button
-            className="shrink-0"
-            onClick={() => {
-              track('cta_click', { location: 'pricing', contactMethod: 'form', cta: 'arajanlat' })
-              scrollToSection('ajanlatkeres')
-            }}
-          >
-            Kérek pontos árat
-          </Button>
+          <Reveal delay={60}>
+            <div className="mt-8 space-y-5 border-t border-white/10 pt-6">
+              <p className="flex items-start gap-3 text-sm leading-relaxed text-alu">
+                <Icon name="info" size={18} className="mt-0.5 shrink-0 text-brand" />
+                <span>
+                  A fenti sávok tájékoztató jellegűek. A pontos árat a munkadarab ismeretében,
+                  fotó alapján adom meg – ez még nem megrendelés.
+                </span>
+              </p>
+              <Button
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  track('cta_click', { location: 'pricing', contactMethod: 'form', cta: 'arajanlat' })
+                  scrollToSection('ajanlatkeres')
+                }}
+              >
+                Kérek pontos árat
+              </Button>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
+
+        {/* ---------------- A táblázat / kártyák ---------------- */}
+        <div ref={ref}>{copy.mode === 'models' ? <CooperationGrid /> : <PriceTable rows={rows} />}</div>
+      </div>
     </Section>
   )
 }
@@ -67,7 +84,7 @@ function PriceTable({ rows }: { rows: typeof priceRanges }) {
     <Reveal>
       {/* A táblázat saját vízszintes görgetést kap, hogy az oldal ne csorduljon túl. */}
       <div className="overflow-x-auto border border-white/12 bg-ink/40 shadow-lift backdrop-blur-sm">
-        <table className="tabular w-full min-w-[46rem] border-collapse text-left">
+        <table className="tabular w-full min-w-[42rem] border-collapse text-left">
           <caption className="sr-only">
             Tipikus munkák becsült ársávjai és átfutási ideje
           </caption>

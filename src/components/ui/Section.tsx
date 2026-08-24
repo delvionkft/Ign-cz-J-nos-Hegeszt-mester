@@ -50,7 +50,12 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        'relative isolate scroll-mt-32 overflow-hidden py-16 sm:py-24 lg:py-28',
+        // overflow-clip, NEM overflow-hidden: a hidden görgetési konténert
+        // hozna létre, ami megtörné a leszármazott position: sticky elemeket
+        // (a galéria, a technológia, az árak és a GYIK megtapadó fejrészét).
+        // A clip ugyanúgy elvágja a fényfoltot és a szekció-sorszámot, de nem
+        // hoz létre görgetési kontextust.
+        'relative isolate scroll-mt-32 overflow-clip py-16 sm:py-24 lg:py-28',
         tones[tone],
         className,
       )}
