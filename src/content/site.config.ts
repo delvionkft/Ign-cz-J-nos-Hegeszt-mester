@@ -52,11 +52,12 @@ export const business: Business = {
 // 2. ELÉRHETŐSÉG
 // ---------------------------------------------------------------------------
 export const contact: Contact = {
-  phoneDisplay: fromEnv(env.VITE_PHONE_DISPLAY, todo('Telefonszám olvasható formában, pl. +36 30 123 4567')),
-  phoneHref: fromEnv(env.VITE_PHONE_HREF, todo('Telefonszám tel: linkhez, szóköz nélkül, pl. +36301234567')),
+  phoneDisplay: fromEnv(env.VITE_PHONE_DISPLAY, '+36 30 540 2954'),
+  phoneHref: fromEnv(env.VITE_PHONE_HREF, '+36305402954'),
+  // WhatsApp és Viber nincs megerősítve – amíg todo, a gombok nem jelennek meg.
   whatsapp: fromEnv(env.VITE_WHATSAPP_NUMBER, todo('WhatsApp szám + és szóköz nélkül, pl. 36301234567')),
   viber: fromEnv(env.VITE_VIBER_NUMBER, todo('Viber szám + jellel, pl. +36301234567')),
-  email: fromEnv(env.VITE_EMAIL, todo('E-mail cím')),
+  email: fromEnv(env.VITE_EMAIL, 'hetesi.balazs@gmail.com'),
   messagePrefill:
     'Jó napot! Alumínium/rozsdamentes hegesztéssel kapcsolatban írok, küldök fotót a munkadarabról.',
 }
@@ -125,6 +126,15 @@ export const facts: Facts = {
 // Csak konkrét, bizonyítható elem kerülhet ide. Üres `value` esetén az elem
 // production buildben nem jelenik meg (nem lesz üres doboz az oldalon).
 export const trustMetrics: TrustMetric[] = [
+  {
+    // Konkrét, megerősített szolgáltatás – ezért nem todo(), ellentétben
+    // a lenti, még bizonyítékra váró számadatokkal.
+    id: 'sos',
+    value: 'SOS',
+    label: 'azonnali javítás igény szerint',
+    proof: 'Hívj, és megbeszéljük, mikor tudlak fogadni',
+    accent: true,
+  },
   {
     id: 'experience',
     value: todo('Tapasztalat években, pl. „12+”'),

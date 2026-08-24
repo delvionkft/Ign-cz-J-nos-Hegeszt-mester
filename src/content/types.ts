@@ -97,6 +97,8 @@ export interface TrustMetric {
   label: string
   /** Rövid magyarázat, mi támasztja alá. */
   proof?: string
+  /** Piros kiemelés semleges fehér helyett – sürgősségi/kivételes elemekhez. */
+  accent?: boolean
 }
 
 export interface SegmentCopy {

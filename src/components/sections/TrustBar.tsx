@@ -1,12 +1,15 @@
 import { trustMetrics } from '@/content/site.config'
 import { isTodo, todoHint } from '@/content/fillable'
+import { cn } from '@/lib/utils'
 import { Reveal } from '@/components/ui/Reveal'
 
 /**
  * BIZALMI SÁV
- * Nagy, kondenzált számadatok mérőléc-osztással elválasztva.
- * Csak konkrét, bizonyítható elem kerülhet ide – kitöltetlen metrika
- * élesben nem jelenik meg, fejlesztői módban viszont jelölve van.
+ * Nagy, kondenzált számadatok, természetes szélességű blokkokban –
+ * NEM merev rácsban, hogy egy-két kitöltött elem se hasson üres,
+ * hiányos sornak. Csak konkrét, bizonyítható elem kerülhet ide –
+ * kitöltetlen metrika élesben nem jelenik meg, fejlesztői módban
+ * viszont jelölve van.
  */
 export function TrustBar() {
   const visible = trustMetrics.filter((metric) => !isTodo(metric.value))
@@ -17,27 +20,35 @@ export function TrustBar() {
   return (
     <section aria-label="Bizalmi adatok" className="border-b border-white/10 bg-panel/25">
       <div className="container-content">
-        <ul className="tabular grid grid-cols-2 gap-px sm:grid-cols-3 lg:grid-cols-5">
+        <ul className="tabular flex flex-wrap">
           {visible.map((metric, index) => (
-            <Reveal as="li" key={metric.id} delay={index * 40}>
-              <div className="relative h-full py-7 pr-4 sm:py-9">
-                {/* Függőleges osztóvonal – csak a második elemtől, hogy ne lógjon ki. */}
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-4 top-6 hidden h-[calc(100%-3rem)] w-px bg-white/10 sm:block [li:first-child_&]:hidden"
-                />
-                <p className="font-display text-numeral-lg font-bold text-paper">{metric.value}</p>
-                <p className="mt-2 text-sm leading-snug text-alu">{metric.label}</p>
-                {metric.proof && (
-                  <p className="mt-1.5 text-xs leading-snug text-steel">{metric.proof}</p>
+            <Reveal
+              as="li"
+              key={metric.id}
+              delay={index * 40}
+              className="max-w-[15rem] border-l border-white/10 py-7 pl-6 pr-6 first:border-l-0 first:pl-0 sm:py-9 sm:pl-8 sm:pr-8"
+            >
+              <p
+                className={cn(
+                  'font-display text-numeral-lg font-bold',
+                  metric.accent ? 'text-brand-light' : 'text-paper',
                 )}
-              </div>
+              >
+                {metric.value}
+              </p>
+              <p className="mt-2 text-sm leading-snug text-alu">{metric.label}</p>
+              {metric.proof && (
+                <p className="mt-1.5 text-xs leading-snug text-steel">{metric.proof}</p>
+              )}
             </Reveal>
           ))}
 
           {import.meta.env.DEV &&
             pending.map((metric) => (
-              <li key={metric.id} className="py-7 pr-4 sm:py-9">
+              <li
+                key={metric.id}
+                className="max-w-[15rem] border-l border-dashed border-brand/30 py-7 pl-6 pr-6 first:border-l-0 first:pl-0 sm:py-9 sm:pl-8 sm:pr-8"
+              >
                 <p className="font-display text-lg font-semibold uppercase text-brand-light">
                   Kitöltendő
                 </p>
