@@ -40,16 +40,23 @@ npm run dev               # fejlesztői szerver: http://localhost:3000
 | `npm run dev` | Fejlesztői szerver élő újratöltéssel |
 | `npm run build` | Production build a `dist/` mappába |
 | `npm run preview` | A production build helyi kiszolgálása |
+| `npm start` | Build + kiszolgálás – ezt futtatja a hosztolási platform |
 | `npm run lint` | TypeScript típusellenőrzés |
 | `npm run check:content` | **Kilistázza a még kitöltetlen kötelező tartalmakat** |
 
 ### Emergent / statikus tárhely
 
-- Build parancs: `npm run build`
+- Indítási parancs: `npm start` (build + statikus kiszolgálás egy lépésben)
+- Build parancs (ha a platform külön build lépést vár): `npm run build`
 - Kimeneti mappa: `dist`
 - Node verzió: 18.18 vagy újabb (rögzítve: `package.json` → `engines`, `.nvmrc`)
+- **Port**: a szerver a `PORT` környezeti változót olvassa, 3000-es tartalékkal
+  (`vite.config.ts`). Ha a platform egy adott portra várja az alkalmazást,
+  ne írd felül kézzel – automatikusan illeszkedik.
 
 Az oldal egyoldalas statikus alkalmazás, nem igényel szerveroldali útvonalkezelést.
+`npm start` egy Vite-jal kiszolgált statikus előnézetet indít – nincs mögötte
+fejlesztői HMR-szerver, így az nem okozhat proxy mögötti újratöltési hurkot.
 
 Emergentbe való átvitelhez az induló utasítás az **[`EMERGENT_PROMPT.md`](./EMERGENT_PROMPT.md)**
 fájlban van – ezt érdemes első üzenetként beilleszteni az Emergent-munkamenetbe.
@@ -518,3 +525,30 @@ src/
 - [ ] Adatkezelési tájékoztató és impresszum linkje működik
 - [ ] `public/robots.txt` sitemap sora a saját domainre írva
 - [ ] Google Maps beágyazás és koordináták beállítva
+
+---
+
+## 12. Hibaelhárítás
+
+### Az oldal folyamatosan újratöltődik / a szerver nem indul el hosztolási platformon
+
+Két leggyakoribb ok:
+
+1. **A platform `npm start`-tal indítja az alkalmazást, de a `start` script
+   hiányzik vagy hibás.** Ha az `npm start` azonnal hibával leáll, a platform
+   sok esetben automatikusan újraindítja a folyamatot – ez a böngészőben
+   végtelen újratöltésnek tűnik. Ellenőrizd: `npm start` helyben lefut-e
+   hibátlanul, és tényleg kiszolgálja-e az oldalt.
+2. **Portütközés.** A szerver a `PORT` környezeti változót olvassa (3000-es
+   tartalékkal, `vite.config.ts`). Ha a platform egy másik portra várja az
+   alkalmazást, és a `PORT` változó nincs átadva vagy felül van írva, a
+   platform proxyja nem éri el a szervert, és ugyanígy újraindítási hurkot
+   okozhat. Teszteld helyben: `PORT=8080 npm start`, majd `curl localhost:8080`.
+
+Ha a platform a Vite **fejlesztői szervert** (`npm run dev`) futtatja élő
+előnézetként (nem az `npm start` statikus kiszolgálást), és proxy vagy iframe
+mögött jelenik meg, a Vite HMR (élő újratöltés) WebSocket-kapcsolata
+meghiúsulhat a proxyzáson keresztül – ez is folyamatos újratöltést okozhat.
+Mivel az oldalnak nincs szüksége élő szerkesztésre futásidőben, éles
+előnézethez mindig az `npm start` (build + statikus kiszolgálás) használata
+javasolt a `npm run dev` helyett.

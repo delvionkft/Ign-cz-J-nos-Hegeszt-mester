@@ -32,8 +32,16 @@ saját kiszolgálásúak). A build egy statikus `dist/` mappát ad.
 ```bash
 npm install
 cp .env.example .env      # lásd lent, mit kell kitölteni
-npm run dev
+npm run dev                # fejlesztéshez, élő újratöltéssel
 ```
+
+**Az éles/előnézeti kiszolgáláshoz `npm start`-ot használj, ne `npm run dev`-et.**
+Az `npm start` lebuildeli és statikusan szolgálja ki az oldalt (`vite build &&
+vite preview`), a `PORT` környezeti változót olvassa 3000-es tartalékkal
+(`vite.config.ts`). Ha a platform proxyzáson/iframe-en keresztül futtatja a
+fejlesztői szervert (`npm run dev`), annak HMR WebSocket-kapcsolata
+meghiúsulhat, ami folyamatos oldal-újratöltést okoz – erre az oldalnak nincs
+is szüksége, mivel nincs futásidejű backend.
 
 `npm run build` + `npm run lint` (TypeScript ellenőrzés) mindig fusson le
 hibátlanul, mielőtt bármit véglegesítesz.
