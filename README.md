@@ -47,9 +47,12 @@ npm run dev               # fejlesztői szerver: http://localhost:3000
 
 - Build parancs: `npm run build`
 - Kimeneti mappa: `dist`
-- Node verzió: 18 vagy újabb
+- Node verzió: 18.18 vagy újabb (rögzítve: `package.json` → `engines`, `.nvmrc`)
 
 Az oldal egyoldalas statikus alkalmazás, nem igényel szerveroldali útvonalkezelést.
+
+Emergentbe való átvitelhez az induló utasítás az **[`EMERGENT_PROMPT.md`](./EMERGENT_PROMPT.md)**
+fájlban van – ezt érdemes első üzenetként beilleszteni az Emergent-munkamenetbe.
 
 ---
 

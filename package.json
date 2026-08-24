@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Alumínium- és rozsdamentes hegesztés – konverzió-orientált landing oldal",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
