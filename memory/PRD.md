@@ -15,12 +15,19 @@ adatokhoz). Szegmenslogika: `src/hooks/useSegment.tsx`. Hiteles forrás:
 ## Környezeti beüzemelés (2026-06 / ebben a session-ben)
 - A projekt a `/app` gyökérben van (nem `/app/frontend`).
 - A readonly supervisor `frontend` programja `/app/frontend`-ben `yarn start`-ot
-  vár → készült egy vékony wrapper: `/app/frontend/package.json`, amelynek
-  `start` scriptje `cd /app && ./node_modules/.bin/vite --host 0.0.0.0 --port 3000`.
-  A `/frontend` a `.gitignore`-ban (nem a projekt része).
-- `vite.config.ts` → `server.allowedHosts: true` hozzáadva (preview host engedése).
-- Kiszolgálás: Vite dev szerver a supervisor `frontend` alatt, 0.0.0.0:3000.
+  vár → készült egy vékony wrapper: `/app/frontend/package.json`. A `/frontend`
+  a `.gitignore`-ban (nem a projekt része).
+- **Szerválási mód: production build kiszolgálása** (`vite build && vite preview`)
+  a 3000-es porton. Ok: a dev szerver HMR websocketje a HTTPS proxy mögött
+  periodikusan megszakadt, ezért a Vite teljes oldal-újratöltéssel reagált
+  (a felhasználó „folyamatosan újratölt" panasza). A `vite preview` statikus
+  szerver, nincs websocket → nincs újratöltés. Fejlesztéshez lokálisan
+  `npm run dev` használható.
+- `vite.config.ts`: `server.allowedHosts: true`, `server.hmr {clientPort:443,
+  protocol:'wss'}`, `preview.allowedHosts: true` hozzáadva (preview host engedése).
 - `.env` a `.env.example`-ből létrehozva (értékek üresek – szándékos).
+- Megjegyzés: production buildben a dev-only „Tartalmi teendők" panel nem
+  jelenik meg (szándékos, csak `npm run dev`-ben látszik).
 
 ## Ellenőrzések (mind lefutott)
 - `npm install` ✓
