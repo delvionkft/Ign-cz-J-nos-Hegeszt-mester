@@ -35,12 +35,14 @@ function fromEnv(value: string | undefined, fallback: string): string {
 // 1. VÁLLALKOZÁS
 // ---------------------------------------------------------------------------
 export const business: Business = {
-  name: todo('A vállalkozás pontos, hivatalos neve (nyilvántartás szerint)'),
-  shortName: todo('Rövid név a fejlécbe, pl. a hegesztőmester neve'),
+  // A logóban szereplő márkanév. Ha a nyilvántartás szerinti hivatalos név
+  // ettől eltér (pl. jogi forma is szerepel benne), írd át erre a pontosra.
+  name: 'HRJ Profitech',
+  shortName: 'HRJ Profitech',
   tagline: todo(
     'Egy mondatos, tényszerű leírás. Pl.: „Alumínium- és rozsdamentes hegesztés, öntvényjavítás és egyedi gyártás.”',
   ),
-  logoSrc: todo('Logó elérési útja a public mappán belül, pl. /images/logo.svg'),
+  logoSrc: '/images/logo.webp',
   siteUrl: fromEnv(env.VITE_SITE_URL, todo('Az oldal éles URL-je, pl. https://pelda.hu')),
   taxId: todo('Adószám vagy nyilvántartási szám (impresszumhoz)'),
   legalForm: todo('Jogi forma, pl. egyéni vállalkozó'),

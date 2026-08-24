@@ -120,6 +120,41 @@ Elérhető tokenek: `businessName`, `shortName`, `phone`, `email`, `serviceArea`
 
 ---
 
+## 3/b. Logó és favicon
+
+| Fájl | Szerep |
+|---|---|
+| `public/images/logo.webp` | A fejlécben és a lábléc márkablokkjában megjelenő logó |
+| `public/favicon-32.png` | Böngészőfül-ikon |
+| `public/favicon-192.png` | Nagyobb felbontású változat (pl. Android) |
+| `public/apple-touch-icon.png` | iOS-en a kezdőképernyőre mentéskor használt ikon |
+
+A `business.logoSrc` (`site.config.ts`) mutat a logóra. Amíg üres, a fejléc egy
+egyszerű kezdőbetűs jelvényt mutat a cégnév helyett.
+
+### Csere másik logóra
+
+1. Tedd az új logót a `public/images/logo.webp` útvonalra (átlátszó háttér, WebP formátum).
+2. A faviconhoz és az `apple-touch-icon.png`-hoz érdemes egy **négyzetesre igazított,
+   feliratmentes** változatot készíteni – a teljes, feliratos lockup apró méretben
+   nem lenne olvasható:
+   ```bash
+   # a logó négyzetes vászonra igazítása, átlátszó háttérrel (favicon-32/192)
+   # és sötét (ink #111315) háttérrel (apple-touch-icon, mert az iOS
+   # nem kezeli jól az átlátszóságot ezen az ikonon)
+   ```
+   Ezt a legegyszerűbb egy képszerkesztőben (pl. Figma, Photopea) elvégezni:
+   négyzetes vászon, a jelvény középre igazítva, kb. 10–15% margóval.
+3. Az `index.html` fejlécében található `<link rel="icon">` / `<link rel="apple-touch-icon">`
+   sorokat csak akkor kell módosítani, ha más fájlnevet vagy méretet használsz.
+
+**Miért nincs SVG favicon?** A legtöbb kész logó (ez is) fotórealisztikus
+színátmenetekkel, tükröződéssel készül – ez vektorra alakítva torzul vagy elveszti a
+részleteit. PNG faviconnal ehelyett a valós logó jelenik meg, nem egy leegyszerűsített
+vektormásolat.
+
+---
+
 ## 4. Milyen fotók kellenek
 
 A galéria az oldal legerősebb bizonyítékblokkja. **Négy homályos telefonfotóból nem lesz

@@ -17,8 +17,10 @@ Fejlesztői módban ugyanez az oldal jobb alsó sarkában, a „Tartalmi teendő
 ## 1. Vállalkozás pontos neve
 `src/content/site.config.ts` → `business.name`, `business.shortName`
 
-A nyilvántartás szerinti pontos név, valamint egy rövid változat a fejlécbe.
-Ide tartozik a `business.legalForm` (jogi forma) és `business.taxId` (adószám) is az
+✅ **Kitöltve:** `HRJ Profitech` (a logó alapján). Ha a cégjegyzék szerinti hivatalos
+név ettől eltér (pl. jogi forma is szerepel benne), írd át a pontosra.
+
+Még hiányzik: `business.legalForm` (jogi forma) és `business.taxId` (adószám) az
 impresszumhoz.
 
 ## 1/b. Hero háttérvideó (opcionális csere)
@@ -31,10 +33,12 @@ Kódolási parancsok: README → „A hero háttérvideó".
 **Ez nem üzleti adat, ezért nem blokkolja az élesítést.**
 
 ## 2. Logó
-`src/content/site.config.ts` → `business.logoSrc`
 
-SVG vagy PNG, a `public/images/` mappába. Sötét háttéren is olvasható változat kell.
-Amíg nincs logó, a fejléc a cégnevet mutatja.
+✅ **Kitöltve.** A logó (`public/images/logo.webp`, átlátszó háttérrel) és a belőle
+készített favicon (`public/favicon-32.png`, `favicon-192.png`, `apple-touch-icon.png`)
+be van kötve. Csere esetén ugyanoda kell tenni az új fájlokat, azonos névvel –
+a favicon a `HRJ` jelvényt tartalmazza a „profitech” felirat nélkül, mert az az apró
+méretben úgysem lenne olvasható.
 
 ## 3. Telefonszám
 `site.config.ts` → `contact.phoneDisplay`, `contact.phoneHref`
@@ -186,9 +190,12 @@ meg.** A kódok kizárólag marketing hozzájárulás után kerülnek betöltés
 ## Amit szándékosan nem töltöttünk ki
 
 Az alábbiakat nem lehetett kitalálni, ezért helykitöltőként maradtak, magyar nyelvű
-útmutatóval: cégnév, elérhetőségek, telephely, nyitvatartás, vonzáskörzet, minősítések,
+útmutatóval: elérhetőségek, telephely, nyitvatartás, vonzáskörzet, minősítések,
 tapasztalati számok, minden ársáv, minden referencia adata és fotója, garanciális
 feltételek, jogi oldalak linkje, térkép és mérési azonosítók.
+
+A cégnév (`HRJ Profitech`) és a logó a beküldött logófájl alapján már kitöltve –
+a jogi forma és az adószám még hiányzik (1. pont).
 
 A **szövegek** (hero, fájdalomblokk, technológiai magyarázatok, folyamat, GYIK válaszok,
 garanciális kizárások, együttműködési modellek) készen vannak, és tényadatot csak
