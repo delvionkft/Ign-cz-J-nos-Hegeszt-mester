@@ -50,11 +50,17 @@ export interface Contact {
   phoneDisplay: Fillable
   /** `tel:` linkhez, nemzetközi formátumban, szóköz nélkül: „+36301234567”. */
   phoneHref: Fillable
+  /** Másodlagos, megjelenített telefonszám (opcionális). */
+  phoneDisplaySecondary: Fillable
+  /** Másodlagos `tel:` szám nemzetközi formátumban, szóköz nélkül. */
+  phoneHrefSecondary: Fillable
   /** WhatsApp szám nemzetközi formátumban, `+` és szóköz nélkül: „36301234567”. */
   whatsapp: Fillable
   /** Viber szám nemzetközi formátumban, `+` jellel: „+36301234567”. */
   viber: Fillable
   email: Fillable
+  /** Másodlagos e-mail cím (opcionális). */
+  emailSecondary: Fillable
   /** Előre kitöltött üzenet a WhatsApp/Viber linkekhez. */
   messagePrefill: string
 }

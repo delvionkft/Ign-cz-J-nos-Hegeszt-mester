@@ -54,10 +54,14 @@ export const business: Business = {
 export const contact: Contact = {
   phoneDisplay: fromEnv(env.VITE_PHONE_DISPLAY, '+36 20 564 6485'),
   phoneHref: fromEnv(env.VITE_PHONE_HREF, '+36205646485'),
+  // Másodlagos elérhetőség – az oldalon a láblécben is megjelenik.
+  phoneDisplaySecondary: fromEnv(env.VITE_PHONE_DISPLAY_SECONDARY, '+36 30 540 2954'),
+  phoneHrefSecondary: fromEnv(env.VITE_PHONE_HREF_SECONDARY, '+36305402954'),
   // WhatsApp és Viber nincs megerősítve – amíg todo, a gombok nem jelennek meg.
   whatsapp: fromEnv(env.VITE_WHATSAPP_NUMBER, todo('WhatsApp szám + és szóköz nélkül, pl. 36301234567')),
   viber: fromEnv(env.VITE_VIBER_NUMBER, todo('Viber szám + jellel, pl. +36301234567')),
   email: fromEnv(env.VITE_EMAIL, 'hareszjani85@gmail.com'),
+  emailSecondary: fromEnv(env.VITE_EMAIL_SECONDARY, 'hetesi.balazs@gmail.com'),
   messagePrefill:
     'Jó napot! Alumínium/rozsdamentes hegesztéssel kapcsolatban írok, küldök fotót a munkadarabról.',
 }

@@ -33,7 +33,10 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
   const taxId = resolve(business.taxId)
   const phone = resolve(contact.phoneHref)
   const phoneLabel = resolve(contact.phoneDisplay)
+  const phoneSecondary = resolve(contact.phoneHrefSecondary)
+  const phoneSecondaryLabel = resolve(contact.phoneDisplaySecondary)
   const email = resolve(contact.email)
+  const emailSecondary = resolve(contact.emailSecondary)
   const city = resolve(serviceArea.city)
   const address = resolve(serviceArea.address)
   const postalCode = resolve(serviceArea.postalCode)
@@ -229,9 +232,21 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
                 <li>
                   <a
                     href={`mailto:${email}`}
+                    data-testid="footer-email-primary"
                     className="text-sm text-alu transition-colors duration-150 hover:text-paper"
                   >
                     {email}
+                  </a>
+                </li>
+              )}
+              {emailSecondary && emailSecondary !== email && (
+                <li>
+                  <a
+                    href={`mailto:${emailSecondary}`}
+                    data-testid="footer-email-secondary"
+                    className="text-sm text-alu transition-colors duration-150 hover:text-paper"
+                  >
+                    {emailSecondary}
                   </a>
                 </li>
               )}
@@ -250,13 +265,23 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
             )}
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             {phone && (
               <a
                 href={`tel:${phone}`}
+                data-testid="footer-phone-primary"
                 className="font-display text-sm font-semibold tracking-wide text-paper transition-colors duration-150 hover:text-brand-light"
               >
                 {phoneLabel}
+              </a>
+            )}
+            {phoneSecondary && phoneSecondary !== phone && (
+              <a
+                href={`tel:${phoneSecondary}`}
+                data-testid="footer-phone-secondary"
+                className="font-display text-sm font-semibold tracking-wide text-paper transition-colors duration-150 hover:text-brand-light"
+              >
+                {phoneSecondaryLabel}
               </a>
             )}
             <button
