@@ -1,6 +1,7 @@
 import { technologies } from '@/content/technology'
 import { Section, SectionHeading } from '@/components/ui/Section'
 import { Reveal } from '@/components/ui/Reveal'
+import { CraftShowcase } from './CraftShowcase'
 
 /**
  * TECHNOLÓGIA – KÖZÉRTHETŐEN
@@ -41,6 +42,12 @@ export function Technology() {
             </Reveal>
           ))}
         </ul>
+      </div>
+
+      {/* Valós varratok – saját munkából, integrált vizuális bizonyíték
+          (nem külön referenciaszekció). */}
+      <div className="mt-14 border-t border-white/10 pt-12 lg:mt-20 lg:pt-16">
+        <CraftShowcase />
       </div>
     </Section>
   )

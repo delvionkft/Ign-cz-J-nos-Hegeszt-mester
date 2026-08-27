@@ -239,6 +239,20 @@ export interface TechnologyItem {
   description: string
 }
 
+export interface WeldShot {
+  id: string
+  /** Kép elérési útja a `public/` mappán belül, pl. `/images/weld-macro-1.webp`. */
+  src: Fillable
+  /** Kötelező, tényszerű alt szöveg – NEM marketingállítás. */
+  alt: string
+}
+
+export interface WeldShowcase {
+  /** Rövid, őszinte felvezetés – a képek a vállalkozó saját munkái. */
+  kicker: string
+  shots: WeldShot[]
+}
+
 export interface LegalLink {
   id: string
   label: string
