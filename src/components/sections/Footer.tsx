@@ -103,6 +103,65 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
               ))}
             </ul>
 
+            {/* Elérhetőség – jól látható, címkézett blokk mindkét telefonnal és e-maillel. */}
+            <div className="mt-7">
+              <h2 className="font-display text-label font-semibold uppercase text-steel">
+                Elérhetőség
+              </h2>
+              <ul className="mt-3 space-y-2.5 text-sm">
+                {phone && (
+                  <li>
+                    <a
+                      href={`tel:${phone}`}
+                      data-testid="footer-phone-primary"
+                      className="group flex items-center gap-2.5 text-paper transition-colors duration-150 hover:text-brand-light"
+                    >
+                      <Icon name="phone" size={16} className="shrink-0 text-brand" />
+                      <span className="font-display font-semibold tracking-wide">{phoneLabel}</span>
+                    </a>
+                  </li>
+                )}
+                {phoneSecondary && phoneSecondary !== phone && (
+                  <li>
+                    <a
+                      href={`tel:${phoneSecondary}`}
+                      data-testid="footer-phone-secondary"
+                      className="group flex items-center gap-2.5 text-paper transition-colors duration-150 hover:text-brand-light"
+                    >
+                      <Icon name="phone" size={16} className="shrink-0 text-brand" />
+                      <span className="font-display font-semibold tracking-wide">
+                        {phoneSecondaryLabel}
+                      </span>
+                    </a>
+                  </li>
+                )}
+                {email && (
+                  <li>
+                    <a
+                      href={`mailto:${email}`}
+                      data-testid="footer-email-primary"
+                      className="group flex items-center gap-2.5 text-alu transition-colors duration-150 hover:text-paper"
+                    >
+                      <Icon name="mail" size={16} className="shrink-0 text-brand" />
+                      <span>{email}</span>
+                    </a>
+                  </li>
+                )}
+                {emailSecondary && emailSecondary !== email && (
+                  <li>
+                    <a
+                      href={`mailto:${emailSecondary}`}
+                      data-testid="footer-email-secondary"
+                      className="group flex items-center gap-2.5 text-alu transition-colors duration-150 hover:text-paper"
+                    >
+                      <Icon name="mail" size={16} className="shrink-0 text-brand" />
+                      <span>{emailSecondary}</span>
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+
             {hasContactChannels() && <ContactChannels location="footer" className="mt-6 max-w-sm" />}
 
             {(fullAddress || areaShort) && (
@@ -228,28 +287,6 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
                   </button>
                 </li>
               )}
-              {email && (
-                <li>
-                  <a
-                    href={`mailto:${email}`}
-                    data-testid="footer-email-primary"
-                    className="text-sm text-alu transition-colors duration-150 hover:text-paper"
-                  >
-                    {email}
-                  </a>
-                </li>
-              )}
-              {emailSecondary && emailSecondary !== email && (
-                <li>
-                  <a
-                    href={`mailto:${emailSecondary}`}
-                    data-testid="footer-email-secondary"
-                    className="text-sm text-alu transition-colors duration-150 hover:text-paper"
-                  >
-                    {emailSecondary}
-                  </a>
-                </li>
-              )}
             </ul>
           </Reveal>
         </div>
@@ -266,24 +303,6 @@ export function Footer({ onOpenCookieSettings }: FooterProps) {
           </p>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            {phone && (
-              <a
-                href={`tel:${phone}`}
-                data-testid="footer-phone-primary"
-                className="font-display text-sm font-semibold tracking-wide text-paper transition-colors duration-150 hover:text-brand-light"
-              >
-                {phoneLabel}
-              </a>
-            )}
-            {phoneSecondary && phoneSecondary !== phone && (
-              <a
-                href={`tel:${phoneSecondary}`}
-                data-testid="footer-phone-secondary"
-                className="font-display text-sm font-semibold tracking-wide text-paper transition-colors duration-150 hover:text-brand-light"
-              >
-                {phoneSecondaryLabel}
-              </a>
-            )}
             <button
               type="button"
               onClick={() => scrollToSection('top')}

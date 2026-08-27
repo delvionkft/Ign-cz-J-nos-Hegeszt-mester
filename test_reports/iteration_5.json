@@ -1,0 +1,19 @@
+{
+  "summary": "Frontend-only verification of footer 'Elérhetőség' block on HRJ Profitech landing. All 4 required data-testids exist exactly once, are visible with correct text and href (tel/mailto), Elérhetőség heading present, Jogi legal list no longer contains emails or tel links, no console errors, layout OK at 1440px and 375px, regression check on hero primary phone passes.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/test_reports/screenshots/footer_contacts_v2.png"],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Footer contacts verified. Elérhetőség block shows footer-phone-primary (+36 20 564 6485 -> tel:+36205646485), footer-phone-secondary (+36 30 540 2954 -> tel:+36305402954), footer-email-primary (hareszjani85@gmail.com), footer-email-secondary (hetesi.balazs@gmail.com), each with phone/mail icon. Footer contains 3 tel: links total (2 in Elérhetőség + 1 CTA button 'Vissza tel' style CTA) and 2 mailto: links, both only in the Elérhetőség block. Jogi legal list has no email/tel links. Screenshot saved to /app/test_reports/screenshots/footer_contacts_v2.png.",
+  "rca of the issue": "N/A - verification only"
+}
