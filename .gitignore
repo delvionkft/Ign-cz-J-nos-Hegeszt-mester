@@ -3,7 +3,6 @@ dist
 # Preview-környezeti supervisor wrapper (nem a projekt része)
 /frontend
 dist-ssr
-.env
 .env.local
 .env.*.local
 *.local

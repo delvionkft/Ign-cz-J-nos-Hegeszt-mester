@@ -60,3 +60,21 @@ kérésére most nem történt.
 - Ellenőrzés: `npm run lint` + `npm run build` hibátlan; testing_agent frontend
   100% PASS (elérhetőség, képek betöltése, elhelyezés, reszponzivitás 375/768/1440,
   0 konzolhiba, nincs újratöltés). `check:content` változatlan (284).
+
+## Deployment-előkészítés (KÉSZ, deployment_agent = PASS)
+- Supervisor: `/etc/supervisor/conf.d/supervisord.conf` már csak a `[program:frontend]`
+  szekciót tartalmazza (a nem létező backend és a felesleges mongodb eltávolítva).
+  frontend RUNNING a 3000-en, HTTP 200.
+- `.gitignore`: a `.env` már NEM kizárt (a platform így tudja kezelni). `.env.local`
+  továbbra is kizárva.
+- `.env`: a hamis `VITE_SITE_URL=https://pelda.hu` kiürítve – deploy előtt a VALÓS
+  domaint kell beállítani.
+- `npm run build` + `npm run lint` hibátlan; statikus `dist/` a kimenet.
+- Szándékos védelmek érintetlenek: üres `VITE_FORM_ENDPOINT` → az űrlap
+  production buildben nem mutat hamis sikert, hanem telefon/WhatsApp elérhetőségre
+  irányít; mérőkódok csak süti-hozzájárulás után töltődnek.
+
+### Deploy előtt a felhasználónak beállítandó (opcionális, üzleti döntés)
+- `VITE_SITE_URL` = valós éles domain (SEO canonical / OG / structured data).
+- `VITE_FORM_ENDPOINT` = valós lead-fogadó végpont, ha az űrlapos ajánlatkérést
+  élesben is fogadni akarja (különben marad a telefon/WhatsApp fallback).
